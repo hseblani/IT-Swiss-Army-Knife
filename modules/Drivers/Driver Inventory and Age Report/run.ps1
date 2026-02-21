@@ -71,7 +71,10 @@ try {
             Present       = [bool]$_.Present
             IsOld         = if ($dt) { ($dt -lt $cutoff) } else { $false }
         }
-    } | Sort-Object IsOld -Descending, Provider, DeviceName
+    } | Sort-Object `
+        @{ Expression = "IsOld"; Descending = $true }, `
+        @{ Expression = "Provider"; Descending = $false }, `
+        @{ Expression = "DeviceName"; Descending = $false }
 
     $oldCount = ($report | Where-Object { $_.IsOld }).Count
     Out-Info ("Age threshold: {0} years (cutoff: {1})" -f $yrs, $cutoff.ToString("yyyy-MM-dd"))
