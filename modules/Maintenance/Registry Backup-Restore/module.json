@@ -1,0 +1,109 @@
+﻿{
+    "Id":  "registry-backup-restore",
+    "Name":  "Registry Backup/Restore",
+    "Category":  "Maintenance",
+    "Order":  6,
+    "Shell":  "Pwsh",
+    "Description":  "Backup selected Windows registry hives or safely restore them from a .reg file.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Preview actions only. No registry changes will be made."
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Backup selected Windows registry hives or safely restore them from a .reg file."
+                   },
+                   {
+                       "name":  "Mode",
+                       "label":  "Mode",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "Backup",
+                       "options":  [
+                                       "Backup",
+                                       "Restore"
+                                   ],
+                       "description":  "Choose whether to export registry hives (Backup) or import a .reg file (Restore)."
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "If the Output folder is not provided, the registry will be exported to\n\\IT Swiss-Army Knife\\modules\\Registry\\Registry Backup-Restore\\backups\\"
+                   },
+                   {
+                       "name":  "BackupFolder",
+                       "label":  "Backup folder",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "__MODULE_OUTPUT__",
+                       "description":  "Where backups will be saved. If empty, a \u0027backups\u0027 folder will be created inside the module folder."
+                   },
+                   {
+                       "name":  "BackupName",
+                       "label":  "Backup name",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "RegistryBackup",
+                       "description":  "Base folder name for this backup."
+                   },
+                   {
+                       "name":  "AddTimestamp",
+                       "label":  "Add timestamp",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Adds date/time to the backup folder name."
+                   },
+                   {
+                       "name":  "IncludeHKLM_SOFTWARE",
+                       "label":  "Include HKLM\\SOFTWARE",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "IncludeHKLM_SYSTEM",
+                       "label":  "Include HKLM\\SYSTEM",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "IncludeHKCU",
+                       "label":  "Include HKCU (current user)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "IncludeHKU_DEFAULT",
+                       "label":  "Include HKU\\.DEFAULT",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "RestoreRegFile",
+                       "label":  "Restore from .reg file",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Select a .reg file to import when Mode is Restore."
+                   },
+                   {
+                       "name":  "RestoreForce",
+                       "label":  "I understand restore can break the system",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Required only when Dry Run (WhatIf) is OFF."
+                   }
+               ]
+}

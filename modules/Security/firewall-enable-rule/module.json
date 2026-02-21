@@ -1,0 +1,32 @@
+﻿{
+    "Id":  "firewall-enable-rule",
+    "Name":  "Enable Firewall Rule",
+    "Category":  "Security",
+    "Order":  4,
+    "Shell":  "Pwsh",
+    "Description":  "Enable Windows Firewall rules safely using name patterns and wildcard matching.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Enable Windows Firewall rules safely using name patterns and wildcard matching."
+                   },
+                   {
+                       "name":  "RuleName",
+                       "label":  "Rule Name Pattern (supports *)",
+                       "type":  "text",
+                       "required":  true,
+                       "default":  "*",
+                       "description":  "Pattern to match rules to enable. Example: Chrome*, *Remote Desktop*, SAK - *"
+                   },
+                   {
+                       "name":  "WhatIf",
+                       "label":  "Dry Run (WhatIf Mode)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Show what would be enabled without actually enabling."
+                   }
+               ]
+}

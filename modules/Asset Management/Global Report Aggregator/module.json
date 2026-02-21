@@ -1,0 +1,71 @@
+﻿{
+    "Id":  "aggregate-pc-reports",
+    "Name":  "Global Report Aggregator",
+    "Category":  "Asset Management",
+    "Order":  2,
+    "Shell":  "Pwsh",
+    "Description":  "Combine multiple support bundles into a single global HTML report with fleet-wide insights.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Combine multiple support bundles into a single global HTML report with fleet-wide insights."
+                   },
+                   {
+                       "name":  "CompanyName",
+                       "label":  "Company / Organization Name",
+                       "type":  "text",
+                       "default":  "My Organization",
+                       "required":  true
+                   },
+                   {
+                       "name":  "TechnicianName",
+                       "label":  "Technician / Report Author",
+                       "type":  "text",
+                       "default":  "Admin",
+                       "required":  true
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Source \u0026 Data Selection"
+                   },
+                   {
+                       "name":  "SourceDir",
+                       "label":  "Support Bundles Directory",
+                       "type":  "folder",
+                       "required":  true,
+                       "default":  "",
+                       "description":  "Folder containing one or more SupportBundle-* folders"
+                   },
+                   {
+                       "name":  "SelectedCategories",
+                       "label":  "Choose Data to Include",
+                       "type":  "multi-select",
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_available_data.ps1",
+                       "populateArgs":  [
+                                            "SourceDir"
+                                        ],
+                       "description":  "Click to scan the folder and select which data sets to include in the report"
+                   },
+                   {
+                       "name":  "SelectAllData",
+                       "label":  "Include All Common Data (ignore selection above)",
+                       "type":  "checkbox",
+                       "default":  false,
+                       "description":  "When checked, includes ALL data categories found in every bundle instead of your selection"
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Export Location"
+                   },
+                   {
+                       "name":  "ExportFolder",
+                       "label":  "Export Report To",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "__MODULE_OUTPUT__"
+                   }
+               ]
+}

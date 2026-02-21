@@ -1,0 +1,80 @@
+﻿{
+    "Id":  "startup-analyzer",
+    "Name":  "Startup Analyzer (Safe)",
+    "Category":  "Security",
+    "Order":  7,
+    "Shell":  "Pwsh",
+    "Description":  "Analyze common Windows startup locations and generate a safe startup report.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Analyze common Windows startup locations and generate a safe startup report."
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Scan options"
+                   },
+                   {
+                       "name":  "IncludeRunKeys",
+                       "label":  "Include Run registry keys",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "IncludeStartupFolders",
+                       "label":  "Include Startup folders",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "IncludeScheduledTasks",
+                       "label":  "Include Scheduled Tasks (logon/startup)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "IncludeAutoServices",
+                       "label":  "Include Auto-start services",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Export"
+                   },
+                   {
+                       "name":  "ExportFolder",
+                       "label":  "Export folder",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "__MODULE_OUTPUT__"
+                   },
+                   {
+                       "name":  "ExportJson",
+                       "label":  "Export JSON report",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "ExportCsv",
+                       "label":  "Export CSV report",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   }
+               ]
+}

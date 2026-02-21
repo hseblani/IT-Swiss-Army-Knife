@@ -1,0 +1,77 @@
+﻿{
+    "Id":  "system-baseline-snapshot-compare",
+    "Name":  "System Baseline Snapshot + Compare",
+    "Category":  "Asset Management",
+    "Order":  3,
+    "Shell":  "Pwsh",
+    "Description":  "Capture a system baseline snapshot and compare snapshots to detect configuration changes over time.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Capture a system baseline snapshot and compare snapshots to detect configuration changes over time."
+                   },
+                   {
+                       "name":  "Mode",
+                       "label":  "Mode",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "CreateSnapshot",
+                       "options":  [
+                                       "CreateSnapshot",
+                                       "CompareSnapshots"
+                                   ]
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Snapshot Configuration"
+                   },
+                   {
+                       "name":  "SnapshotFolder",
+                       "label":  "Snapshot folder",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "__MODULE_OUTPUT__"
+                   },
+                   {
+                       "name":  "SnapshotName",
+                       "label":  "Snapshot name",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "Baseline"
+                   },
+                   {
+                       "name":  "AddTimestamp",
+                       "label":  "Add timestamp",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Comparison Selection"
+                   },
+                   {
+                       "name":  "OldSnapshotFile",
+                       "label":  "Old snapshot file (JSON)",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  ""
+                   },
+                   {
+                       "name":  "NewSnapshotFile",
+                       "label":  "New snapshot file (JSON)",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  ""
+                   }
+               ]
+}

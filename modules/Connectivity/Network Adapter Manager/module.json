@@ -1,0 +1,47 @@
+﻿{
+    "id":  "network-adapter-management",
+    "name":  "Network Adapter Manager",
+    "category":  "Connectivity",
+    "Order":  5,
+    "description":  "Manage network adapters and perform common network troubleshooting and reset operations.\n- List all network adapters.\n- Enable selected network adapter.\n- Disable selected network adapter.\n- Release and renew IP address (DHCP).\n- Flush DNS cache.\n- Reset TCP/IP stack.\n- Reset Winsock catalog.\n- Perform full network reset (all actions combined, reboot recommended).",
+    "requiresAdmin":  true,
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Manage network adapters and perform common network troubleshooting and reset operations.\n- List all network adapters.\n- Enable selected network adapter.\n- Disable selected network adapter.\n- Release and renew IP address (DHCP).\n- Flush DNS cache.\n- Reset TCP/IP stack.\n- Reset Winsock catalog.\n- Perform full network reset (all actions combined, reboot recommended)."
+                   },
+                   {
+                       "name":  "SelectedAdapter",
+                       "label":  "Select Network Adapter",
+                       "type":  "dropdown",
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\get-adapters.ps1",
+                       "default":  "N/A",
+                       "description":  "Select adapter for Enable/Disable actions"
+                   },
+                   {
+                       "name":  "Action",
+                       "label":  "Action to Perform",
+                       "type":  "dropdown",
+                       "options":  [
+                                       "List All Adapters",
+                                       "Enable Selected Adapter",
+                                       "Disable Selected Adapter",
+                                       "Release/Renew IP (DHCP)",
+                                       "Flush DNS Cache",
+                                       "Reset TCP/IP Stack",
+                                       "Reset Winsock Catalog",
+                                       "Full Network Reset (All)"
+                                   ],
+                       "default":  "List All Adapters"
+                   },
+                   {
+                       "name":  "AutoReboot",
+                       "label":  "Auto-reboot after Full Reset (recommended)",
+                       "type":  "checkbox",
+                       "default":  false
+                   }
+               ]
+}

@@ -1,0 +1,17 @@
+﻿{
+    "id":  "uptime",
+    "name":  "Uptime",
+    "category":  "Asset Management",
+    "Order":  5,
+    "description":  "This module requires no configuration.\n\nClick RUN to view system uptime information including:\n- Last boot time\n- Current uptime in days, hours, and minutes\n- Total uptime in hours\n- Recommendations for rebooting if needed",
+    "requiresAdmin":  false,
+    "Shell":  "Pwsh",
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "This module requires no configuration.\n\nClick RUN to view system uptime information including:\n- Last boot time\n- Current uptime in days, hours, and minutes\n- Total uptime in hours\n- Recommendations for rebooting if needed"
+                   }
+               ]
+}

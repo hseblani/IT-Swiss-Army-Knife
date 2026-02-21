@@ -1,0 +1,112 @@
+﻿{
+    "Id":  "disk-cleanup-advanced",
+    "Name":  "Disk Cleanup",
+    "Category":  "Storage",
+    "Order":  8,
+    "Shell":  "Pwsh",
+    "Description":  "Free disk space by safely removing temporary files, caches, and unused system data.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Free disk space by safely removing temporary files, caches, and unused system data."
+                   },
+                   {
+                       "name":  "TargetDrive",
+                       "label":  "Target Drive",
+                       "type":  "drive",
+                       "required":  true,
+                       "default":  "C:",
+                       "description":  "Drive to clean. Typically C: for system drive."
+                   },
+                   {
+                       "name":  "CleanTempFiles",
+                       "label":  "Clean Temporary Files",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Remove files from Windows\\Temp and user temp folders."
+                   },
+                   {
+                       "name":  "CleanWindowsUpdate",
+                       "label":  "Clean Windows Update Cache",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Clean Windows Update download cache and old update files."
+                   },
+                   {
+                       "name":  "CleanRecycleBin",
+                       "label":  "Empty Recycle Bin",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Permanently delete all files in Recycle Bin."
+                   },
+                   {
+                       "name":  "CleanBrowserCache",
+                       "label":  "Clean Browser Caches",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Clean cache for Chrome, Edge, Firefox. User must close browsers first."
+                   },
+                   {
+                       "name":  "CleanThumbnails",
+                       "label":  "Clean Thumbnail Cache",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Remove thumbnail cache database files."
+                   },
+                   {
+                       "name":  "CleanErrorReports",
+                       "label":  "Clean Error Reports",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Remove Windows Error Reporting logs and dumps."
+                   },
+                   {
+                       "name":  "CleanOldWindows",
+                       "label":  "Clean Windows.old Folder",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Remove Windows.old folder from previous Windows installation (if exists). WARNING: Cannot undo!"
+                   },
+                   {
+                       "name":  "CleanDeliveryOptimization",
+                       "label":  "Clean Delivery Optimization Cache",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Clean Windows 10/11 delivery optimization cache."
+                   },
+                   {
+                       "name":  "CleanDownloads",
+                       "label":  "Clean Downloads Folder (30+ days old)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Remove files from Downloads folder older than 30 days. Use with caution!"
+                   },
+                   {
+                       "name":  "DryRun",
+                       "label":  "Dry Run (Show what would be cleaned)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Scan and report space that would be freed without actually deleting anything."
+                   },
+                   {
+                       "name":  "MinFileAge",
+                       "label":  "Minimum File Age (days)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "0",
+                       "description":  "Only clean temp files older than this many days. 0 = clean all. Recommended: 7 for safety."
+                   }
+               ]
+}

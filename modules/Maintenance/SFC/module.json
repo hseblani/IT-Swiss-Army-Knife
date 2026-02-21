@@ -1,0 +1,40 @@
+﻿{
+    "id":  "repair-sfc",
+    "name":  "System File Checker (SFC)",
+    "category":  "Maintenance",
+    "Order":  2,
+    "description":  "Scan and repair corrupted Windows system files using System File Checker.\n- Run SFC in online mode on the current system.\n- Run SFC in offline mode on another Windows installation.\n- Specify offline boot drive and Windows directory.\n- Scan only without attempting repairs.",
+    "requiresAdmin":  true,
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Scan and repair corrupted Windows system files using System File Checker.\n- Run SFC in online mode on the current system.\n- Run SFC in offline mode on another Windows installation.\n- Specify offline boot drive and Windows directory.\n- Scan only without attempting repairs."
+                   },
+                   {
+                       "name":  "OfflineMode",
+                       "label":  "Offline mode",
+                       "type":  "checkbox",
+                       "default":  false
+                   },
+                   {
+                       "name":  "OfflineBootDrive",
+                       "label":  "Offline boot drive",
+                       "type":  "drive",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "OfflineWinDir",
+                       "label":  "Offline Windows directory",
+                       "type":  "folder",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "ScanOnly",
+                       "label":  "Scan only (no repair)",
+                       "type":  "checkbox",
+                       "default":  false
+                   }
+               ]
+}

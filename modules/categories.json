@@ -1,0 +1,40 @@
+﻿{
+    "Categories":  [
+                       {
+                           "Name":  "Connectivity",
+                           "CategoryOrder":  1
+                       },
+                       {
+                           "Name":  "Maintenance",
+                           "CategoryOrder":  2
+                       },
+                       {
+                           "Name":  "Storage",
+                           "CategoryOrder":  3
+                       },
+                       {
+                           "Name":  "Identity",
+                           "CategoryOrder":  4
+                       },
+                       {
+                           "Name":  "Deployment",
+                           "CategoryOrder":  5
+                       },
+                       {
+                           "Name":  "Diagnostics",
+                           "CategoryOrder":  6
+                       },
+                       {
+                           "Name":  "Asset Management",
+                           "CategoryOrder":  7
+                       },
+                       {
+                           "Name":  "Drivers",
+                           "CategoryOrder":  8
+                       },
+                       {
+                           "Name":  "Security",
+                           "CategoryOrder":  9
+                       }
+                   ]
+}

@@ -1,0 +1,55 @@
+﻿{
+    "Id":  "driver-export",
+    "Name":  "Export Drivers",
+    "Category":  "Drivers",
+    "Order":  1,
+    "Shell":  "Pwsh",
+    "Description":  "Export installed Windows drivers to a backup folder for recovery or deployment.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Export installed Windows drivers to a backup folder for recovery or deployment."
+                   },
+                   {
+                       "name":  "ExportPath",
+                       "label":  "Export Destination Folder",
+                       "type":  "folder",
+                       "required":  true,
+                       "default":  "__MODULE_OUTPUT__",
+                       "description":  "Folder where drivers will be exported"
+                   },
+                   {
+                       "name":  "OfflineWindowsPath",
+                       "label":  "Offline Windows Path (optional)",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Path to offline Windows installation (e.g., E:\\Windows). Leave empty for online system."
+                   },
+                   {
+                       "name":  "ThirdPartyOnly",
+                       "label":  "Export 3rd-party drivers only",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Export only non-Microsoft drivers (recommended)"
+                   },
+                   {
+                       "name":  "CreateReport",
+                       "label":  "Create driver inventory report (CSV)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Generate a CSV report of all exported drivers"
+                   }
+               ]
+}

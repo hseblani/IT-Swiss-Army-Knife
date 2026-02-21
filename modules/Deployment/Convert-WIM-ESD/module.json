@@ -1,0 +1,78 @@
+﻿{
+    "id":  "repair-convert-wim-esd",
+    "name":  "Convert WIM/ESD",
+    "category":  "Deployment",
+    "Order":  3,
+    "description":  "Convert Windows installation images between WIM and ESD formats using DISM.",
+    "requiresAdmin":  true,
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Convert Windows installation images between WIM and ESD formats using DISM."
+                   },
+                   {
+                       "name":  "SourceImage",
+                       "label":  "Source image (.wim / .esd)",
+                       "type":  "file",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "TargetFormat",
+                       "label":  "Target format",
+                       "type":  "select",
+                       "default":  "esd",
+                       "options":  [
+                                       "esd",
+                                       "wim"
+                                   ]
+                   },
+                   {
+                       "name":  "DestinationFolder",
+                       "label":  "Destination folder",
+                       "type":  "folder",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "DestinationFileName",
+                       "label":  "Destination file name (example: install.esd)",
+                       "type":  "text",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "SourceIndex",
+                       "label":  "Source index (blank = you may need to specify)",
+                       "type":  "text",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "Compression",
+                       "label":  "Compression",
+                       "type":  "select",
+                       "dependsOn":  "TargetFormat",
+                       "defaultMap":  {
+                                          "esd":  "recovery",
+                                          "wim":  "max"
+                                      },
+                       "optionsMap":  {
+                                          "esd":  [
+                                                      "recovery",
+                                                      "max",
+                                                      "fast"
+                                                  ],
+                                          "wim":  [
+                                                      "max",
+                                                      "fast",
+                                                      "none"
+                                                  ]
+                                      }
+                   },
+                   {
+                       "name":  "CheckIntegrity",
+                       "label":  "Check integrity (slower)",
+                       "type":  "checkbox",
+                       "default":  true
+                   }
+               ]
+}

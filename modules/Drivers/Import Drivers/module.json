@@ -1,0 +1,55 @@
+﻿{
+    "Id":  "driver-import",
+    "Name":  "Import Drivers",
+    "Category":  "Drivers",
+    "Order":  2,
+    "Shell":  "Pwsh",
+    "Description":  "Import and install Windows drivers from a backup folder on online or offline systems.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Import and install Windows drivers from a backup folder on online or offline systems."
+                   },
+                   {
+                       "name":  "ImportPath",
+                       "label":  "Driver Source Folder",
+                       "type":  "folder",
+                       "required":  true,
+                       "default":  "",
+                       "description":  "Folder containing driver packages to import"
+                   },
+                   {
+                       "name":  "OfflineWindowsPath",
+                       "label":  "Offline Windows Path (optional)",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Path to offline Windows installation (e.g., E:\\Windows). Leave empty for online system."
+                   },
+                   {
+                       "name":  "Recurse",
+                       "label":  "Scan subfolders recursively",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Search for drivers in all subfolders"
+                   },
+                   {
+                       "name":  "ForceUnsigned",
+                       "label":  "Allow unsigned drivers",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Install unsigned drivers (not recommended)"
+                   }
+               ]
+}

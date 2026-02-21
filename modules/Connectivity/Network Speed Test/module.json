@@ -1,0 +1,45 @@
+﻿{
+    "id":  "network-speed-test",
+    "name":  "Network Speed Test",
+    "category":  "Connectivity",
+    "Order":  9,
+    "description":  "Test internet download and upload speeds using reliable public servers.",
+    "requiresAdmin":  false,
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Test internet download and upload speeds using reliable public servers."
+                   },
+                   {
+                       "name":  "TestServer",
+                       "label":  "Test Server",
+                       "type":  "dropdown",
+                       "options":  [
+                                       "Auto (Closest Server)",
+                                       "Cloudflare (1.1.1.1)",
+                                       "Google (8.8.8.8)",
+                                       "Quad9 (9.9.9.9)"
+                                   ],
+                       "default":  "Auto (Closest Server)"
+                   },
+                   {
+                       "name":  "TestSize",
+                       "label":  "Test Size",
+                       "type":  "dropdown",
+                       "options":  [
+                                       "Quick Test (10 MB)",
+                                       "Standard Test (50 MB)",
+                                       "Large Test (100 MB)"
+                                   ],
+                       "default":  "Standard Test (50 MB)"
+                   },
+                   {
+                       "name":  "SkipUploadTest",
+                       "label":  "Skip Upload Speed Test (faster)",
+                       "type":  "checkbox",
+                       "default":  false
+                   }
+               ]
+}

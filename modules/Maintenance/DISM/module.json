@@ -1,0 +1,46 @@
+﻿{
+    "id":  "repair-dism",
+    "name":  "DISM (Repairs Windows images)",
+    "category":  "Maintenance",
+    "Order":  3,
+    "description":  "Repair Windows system images using DISM in online or offline mode.\n- Run DISM on the current (online) or an offline Windows installation.\n- Specify a repair source (install.wim or install.esd).\n- Select source image index.\n- Use /LimitAccess when a local repair source is provided.",
+    "requiresAdmin":  true,
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Repair Windows system images using DISM in online or offline mode.\n- Run DISM on the current (online) or an offline Windows installation.\n- Specify a repair source (install.wim or install.esd).\n- Select source image index.\n- Use /LimitAccess when a local repair source is provided."
+                   },
+                   {
+                       "name":  "OfflineMode",
+                       "label":  "Offline mode",
+                       "type":  "checkbox",
+                       "default":  false
+                   },
+                   {
+                       "name":  "OfflineWindowsDir",
+                       "label":  "Offline Windows directory (example: D:\\Windows)",
+                       "type":  "folder",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "SourceWimEsd",
+                       "label":  "Optional repair source (install.wim / install.esd)",
+                       "type":  "file",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "SourceIndex",
+                       "label":  "Source index (number)",
+                       "type":  "text",
+                       "default":  "1"
+                   },
+                   {
+                       "name":  "LimitAccess",
+                       "label":  "Use /LimitAccess when source provided",
+                       "type":  "checkbox",
+                       "default":  false
+                   }
+               ]
+}

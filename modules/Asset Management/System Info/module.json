@@ -1,0 +1,17 @@
+﻿{
+    "id":  "system.info",
+    "name":  "System Info (Computer + OS)",
+    "category":  "Asset Management",
+    "Order":  4,
+    "description":  "This module requires no configuration.\n\nClick RUN to view comprehensive system information including:\n- Computer name and domain\n- Operating system details and version\n- Hardware specifications (CPU, RAM)\n- Disk space for all drives\n- BIOS/Firmware information",
+    "requiresAdmin":  false,
+    "Shell":  "Pwsh",
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "This module requires no configuration.\n\nClick RUN to view comprehensive system information including:\n- Computer name and domain\n- Operating system details and version\n- Hardware specifications (CPU, RAM)\n- Disk space for all drives\n- BIOS/Firmware information"
+                   }
+               ]
+}

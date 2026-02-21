@@ -1,0 +1,30 @@
+﻿{
+    "id":  "service-lookup",
+    "name":  "Service Lookup",
+    "category":  "Diagnostics",
+    "Order":  2,
+    "description":  "Search and inspect Windows services by name or display name.",
+    "requiresAdmin":  false,
+    "Shell":  "Pwsh",
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Search and inspect Windows services by name or display name."
+                   },
+                   {
+                       "name":  "Query",
+                       "label":  "Search Query",
+                       "type":  "text",
+                       "default":  "windows update",
+                       "required":  true,
+                       "description":  "Enter service name or display name. Supports partial matches and wildcards (*)."
+                   },
+                   {
+                       "name":  "UsageInfo",
+                       "type":  "info",
+                       "default":  "How to Use:\n- Enter service name (e.g., \u0027wuauserv\u0027) or display name (e.g., \u0027Windows Update\u0027)\n- Search is case-insensitive and supports partial matches\n- Use wildcards (*) for broader searches\n\nExamples:\n  \u0027windows update\u0027 - Find Windows Update service\n  \u0027print*\u0027 - Find all print-related services\n  \u0027audio\u0027 - Find audio services\n  \u0027remote\u0027 - Find Remote Desktop services"
+                   }
+               ]
+}

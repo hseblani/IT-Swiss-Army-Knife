@@ -1,0 +1,47 @@
+﻿{
+    "id":  "network.ping",
+    "name":  "Ping Test Advanced",
+    "category":  "Connectivity",
+    "Order":  2,
+    "description":  "Advanced Ping Test. \n- Choose target: IP like 8.8.8.8 ot Hostname like www.google.com.\n- Change the coount number of ping requests.\n- Time out in Ms.\n- Interval in Ms.\n- Graph Width for graph result Visualization.",
+    "requiresAdmin":  false,
+    "Shell":  "Pwsh",
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Advanced Ping Test. \n- Choose target: IP like 8.8.8.8 ot Hostname like www.google.com.\n- Change the coount number of ping requests.\n- Time out in Ms.\n- Interval in Ms.\n- Graph Width for graph result Visualization."
+                   },
+                   {
+                       "name":  "Target",
+                       "description":  "IP or hostname",
+                       "required":  true,
+                       "default":  "8.8.8.8"
+                   },
+                   {
+                       "name":  "Count",
+                       "description":  "Number of pings (0 = continuous)",
+                       "required":  false,
+                       "default":  "4"
+                   },
+                   {
+                       "name":  "TimeoutMs",
+                       "description":  "Timeout per ping in milliseconds",
+                       "required":  false,
+                       "default":  "2000"
+                   },
+                   {
+                       "name":  "IntervalMs",
+                       "description":  "Delay between pings in milliseconds",
+                       "required":  false,
+                       "default":  "500"
+                   },
+                   {
+                       "name":  "GraphWidth",
+                       "description":  "ASCII graph width",
+                       "required":  false,
+                       "default":  "30"
+                   }
+               ]
+}

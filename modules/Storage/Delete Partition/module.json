@@ -1,0 +1,55 @@
+﻿{
+    "Id":  "delete-partition",
+    "Name":  "Delete Partition",
+    "Category":  "Storage",
+    "Order":  2,
+    "Shell":  "Pwsh",
+    "Description":  "Delete an existing partition from a disk. WARNING: This will permanently remove all data on the selected partition.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "DeleteInfo",
+                       "type":  "info",
+                       "default":  "[WARNING]\nThis operation will permanently delete the selected partition and ALL DATA on it!\n- Always back up important data before deleting\n- Use WhatIf mode to preview the operation\n- Verify disk and partition numbers carefully\n- Cannot be undone!"
+                   },
+                   {
+                       "name":  "DiskNumber",
+                       "label":  "Select Disk",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_disks.ps1",
+                       "populateArgs":  [
+
+                                        ],
+                       "description":  "Select the disk containing the partition to delete"
+                   },
+                   {
+                       "name":  "PartitionNumber",
+                       "label":  "Select Partition",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_partitions.ps1",
+                       "populateArgs":  [
+                                            "DiskNumber"
+                                        ],
+                       "description":  "Select the partition to delete (automatically populated based on disk selection)"
+                   }
+               ]
+}

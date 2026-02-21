@@ -1,0 +1,70 @@
+﻿{
+    "Id":  "disk-health-check",
+    "Name":  "Disk Health \u0026 SMART Status",
+    "Category":  "Storage",
+    "Order":  8,
+    "Shell":  "Pwsh",
+    "Description":  "Comprehensive disk health analysis including SMART status, temperature, errors, performance metrics, and reliability predictions. Checks all physical disks or a selected disk.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "HealthInfo",
+                       "type":  "info",
+                       "default":  "Comprehensive health analysis for physical disks:\n - SMART Status \u0026 Attributes\n - Temperature Monitoring\n - Error Counts (Read/Write/Timeouts)\n - Performance Metrics (IOPS, Throughput)\n - Power-On Hours \u0026 Health Score\n - Predicted Failure Analysis\n - Wear Level (for SSDs)\n - Bad Sectors Detection."
+                   },
+                   {
+                       "name":  "DiskNumber",
+                       "label":  "Select Disk (leave empty for ALL disks)",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_disks.ps1",
+                       "populateArgs":  [
+
+                                        ],
+                       "description":  "Select specific disk or leave empty to check all physical disks"
+                   },
+                   {
+                       "name":  "DetailLevel",
+                       "label":  "Detail Level",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "Standard",
+                       "options":  [
+                                       "Quick Summary",
+                                       "Standard",
+                                       "Detailed",
+                                       "Full Diagnostics"
+                                   ],
+                       "description":  "Amount of information to display"
+                   },
+                   {
+                       "name":  "IncludeSMART",
+                       "label":  "Include SMART Attributes",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Show detailed SMART attributes (temperature, errors, power-on hours)"
+                   },
+                   {
+                       "name":  "CheckBadSectors",
+                       "label":  "Scan for Bad Sectors (slow)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Perform surface scan to detect bad sectors - may take several minutes"
+                   },
+                   {
+                       "name":  "ExportReport",
+                       "label":  "Export to File",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Save detailed report to disk-health-report.txt"
+                   }
+               ]
+}

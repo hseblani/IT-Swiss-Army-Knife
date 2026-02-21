@@ -1,0 +1,91 @@
+﻿{
+    "Id":  "create-partition",
+    "Name":  "Create Partition",
+    "Category":  "Storage",
+    "Order":  1,
+    "Shell":  "Pwsh",
+    "Description":  "Create a new partition on a selected disk with specified size and file system. Optionally assign a drive letter and volume label.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "PartitionInfo",
+                       "type":  "info",
+                       "default":  "Create a new partition on the selected disk.\n- Select a disk\n- Click \u0027Get Max Size\u0027 to see available space and size options\n- Choose a size from dropdown or type custom value\n- Configure file system and drive letter\n- Click Run to create partition"
+                   },
+                   {
+                       "name":  "DiskNumber",
+                       "label":  "Select Disk",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_disks.ps1",
+                       "populateArgs":  [
+
+                                        ],
+                       "description":  "Select the disk where you want to create a partition"
+                   },
+                   {
+                       "name":  "AvailableSpaceInfo",
+                       "label":  "Available Space",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_max_size.ps1",
+                       "populateArgs":  [
+                                            "DiskNumber"
+                                        ],
+                       "reloadLabel":  "Check Space",
+                       "description":  "Click \u0027Check Space\u0027 to see how much free space is available"
+                   },
+                   {
+                       "name":  "Size",
+                       "label":  "Partition Size",
+                       "type":  "text",
+                       "required":  true,
+                       "default":  "MAX",
+                       "description":  "Type size manually: 50GB, 10240MB, or MAX (uses all available space)"
+                   },
+                   {
+                       "name":  "FileSystem",
+                       "label":  "File System",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "NTFS",
+                       "options":  [
+                                       "NTFS",
+                                       "FAT32",
+                                       "exFAT",
+                                       "ReFS"
+                                   ]
+                   },
+                   {
+                       "name":  "VolumeLabel",
+                       "label":  "Volume Label (optional)",
+                       "type":  "text",
+                       "default":  "",
+                       "description":  "Name for the partition/volume"
+                   },
+                   {
+                       "name":  "DriveLetter",
+                       "label":  "Drive Letter (optional)",
+                       "type":  "text",
+                       "default":  "",
+                       "description":  "Assign specific drive letter (e.g., E, F, G) - leave blank for auto-assignment"
+                   }
+               ]
+}

@@ -1,0 +1,111 @@
+﻿{
+    "Id":  "user-create",
+    "Name":  "Create User",
+    "Category":  "Identity",
+    "Order":  4,
+    "Shell":  "Pwsh",
+    "Description":  "Create a local Windows user with common password policies and safety checks.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Create a local Windows user with common password policies and safety checks."
+                   },
+                   {
+                       "name":  "OfflineWindowsPath",
+                       "label":  "Offline SAM Hive File (optional)",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  "",
+                       "filter":  "SAM Hive|SAM|All Files|*.*",
+                       "description":  "Browse to the SAM file (e.g., E:\\Windows\\System32\\Config\\SAM). Leave empty to use current Windows."
+                   },
+                   {
+                       "name":  "NewUserName",
+                       "label":  "New user name",
+                       "type":  "text",
+                       "default":  "newuser"
+                   },
+                   {
+                       "name":  "NewFullName",
+                       "label":  "Full name (optional)",
+                       "type":  "text",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "NewDescription",
+                       "label":  "Description (optional)",
+                       "type":  "text",
+                       "default":  "Created by IT Swiss-Army Knife"
+                   },
+                   {
+                       "name":  "NewPassword",
+                       "label":  "Password",
+                       "type":  "password",
+                       "default":  "",
+                       "description":  "Leave blank for no password, or enter password",
+                       "inline":  true
+                   },
+                   {
+                       "name":  "NewPasswordConfirm",
+                       "label":  "Confirm Password",
+                       "type":  "password",
+                       "default":  "",
+                       "description":  "Re-enter the same password for verification",
+                       "inline":  true
+                   },
+                   {
+                       "name":  "AddToAdministrators",
+                       "label":  "Add to Administrators",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "DisableAfterCreate",
+                       "label":  "Disable after creation",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "MustChangeAtNextLogon",
+                       "label":  "User must change password at next logon",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "disables":  [
+                                        "UserCannotChangePassword",
+                                        "PasswordNeverExpires"
+                                    ]
+                   },
+                   {
+                       "name":  "UserCannotChangePassword",
+                       "label":  "User cannot change password",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "disables":  [
+                                        "MustChangeAtNextLogon"
+                                    ]
+                   },
+                   {
+                       "name":  "PasswordNeverExpires",
+                       "label":  "Password never expires",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "disables":  [
+                                        "MustChangeAtNextLogon"
+                                    ]
+                   }
+               ]
+}

@@ -1,0 +1,40 @@
+﻿{
+    "Id":  "firewall-remove-rule",
+    "Name":  "Remove Firewall Rule",
+    "Category":  "Security",
+    "Order":  3,
+    "Shell":  "Pwsh",
+    "Description":  "Remove Windows Firewall rules safely using name patterns and wildcard matching.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Remove Windows Firewall rules safely using name patterns and wildcard matching."
+                   },
+                   {
+                       "name":  "RuleName",
+                       "label":  "Rule Name Pattern (supports *)",
+                       "type":  "text",
+                       "required":  true,
+                       "default":  "SAK - *",
+                       "description":  "Pattern to match rules for removal. Use * for wildcards. Example: Chrome*, *Test*, SAK - *"
+                   },
+                   {
+                       "name":  "WhatIf",
+                       "label":  "Dry Run (WhatIf Mode)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Show what would be removed without actually removing."
+                   },
+                   {
+                       "name":  "Confirm",
+                       "label":  "Confirm Before Removal",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Ask for confirmation before removing rules."
+                   }
+               ]
+}

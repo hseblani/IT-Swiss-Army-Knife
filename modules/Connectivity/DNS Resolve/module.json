@@ -1,0 +1,23 @@
+﻿{
+    "id":  "dns-resolve",
+    "name":  "DNS Resolve",
+    "category":  "Connectivity",
+    "Order":  4,
+    "description":  "This module allows you to resolve a hostname into its corresponding IP addresses using DNS. It queries standard DNS records (IPv4 A and IPv6 AAAA) to help verify name resolution, test connectivity, and troubleshoot DNS-related issues quickly without requiring administrative privileges.",
+    "requiresAdmin":  false,
+    "Shell":  "Pwsh",
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "This module allows you to resolve a hostname into its corresponding IP addresses using DNS. It queries standard DNS records (IPv4 A and IPv6 AAAA) to help verify name resolution, test connectivity, and troubleshoot DNS-related issues quickly without requiring administrative privileges."
+                   },
+                   {
+                       "name":  "Name",
+                       "default":  "www.google.com",
+                       "required":  true,
+                       "description":  "Hostname to resolve"
+                   }
+               ]
+}

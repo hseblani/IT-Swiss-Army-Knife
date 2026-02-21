@@ -1,0 +1,206 @@
+﻿{
+    "Id":  "registry-common-tweaks",
+    "Name":  "Common Registry Tweaks",
+    "Category":  "Maintenance",
+    "Order":  5,
+    "Shell":  "Pwsh",
+    "Description":  "Apply common Windows registry tweaks to improve usability, privacy, and UI behavior, with a safe Dry Run mode enabled by default.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Preview actions only. No registry changes will be made."
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Apply common Windows registry tweaks to improve usability, privacy, and UI behavior, with a safe Dry Run mode enabled by default."
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Safety"
+                   },
+                   {
+                       "name":  "ApplyForce",
+                       "label":  "I understand registry tweaks can affect the system",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Required only when Dry Run (WhatIf) is OFF."
+                   },
+                   {
+                       "name":  "ExplorerRestartAfterApply",
+                       "label":  "Restart Explorer after applying tweaks",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Explorer"
+                   },
+                   {
+                       "name":  "ShowFileExtensions",
+                       "label":  "Show file extensions (Explorer)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "ShowHiddenFiles",
+                       "label":  "Show hidden files (Explorer)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "ShowFullPathInTitleBar",
+                       "label":  "Show full path in Explorer title bar",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "ExpandToOpenFolder",
+                       "label":  "Expand to open folder in Navigation Pane",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "OpenThisPCByDefault",
+                       "label":  "Open File Explorer to This PC",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Start Menu and Search"
+                   },
+                   {
+                       "name":  "DisableSearchHighlights",
+                       "label":  "Disable Windows Search highlights",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "DisableBingSearchInStart",
+                       "label":  "Disable Bing web search in Start menu",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "DisableStartSuggestions",
+                       "label":  "Disable Start menu suggestions and app promotions",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Windows 11 UI"
+                   },
+                   {
+                       "name":  "Win11ClassicContextMenu",
+                       "label":  "Windows 11: Use classic right-click context menu",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "TaskbarAlignLeft",
+                       "label":  "Windows 11: Taskbar align left",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "DisableWidgets",
+                       "label":  "Windows 11: Disable Widgets button",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "DisableChat",
+                       "label":  "Windows 11: Disable Chat button",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "System"
+                   },
+                   {
+                       "name":  "EnableLongPaths",
+                       "label":  "Enable long paths support",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Requires admin. A restart may be needed."
+                   },
+                   {
+                       "name":  "DisableAutoPlay",
+                       "label":  "Disable AutoPlay",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "DisableStickyKeysPrompt",
+                       "label":  "Disable Sticky Keys prompt (Shift x5)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "EnableNumLockAtStartup",
+                       "label":  "Enable NumLock at startup (common fix)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "May require logoff/reboot on some systems."
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Privacy and Policies"
+                   },
+                   {
+                       "name":  "DisableTelemetryBasic",
+                       "label":  "Reduce telemetry (basic)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "DisableLockScreen",
+                       "label":  "Disable lock screen (where supported)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "May not work on all Windows editions. Uses policy key."
+                   },
+                   {
+                       "name":  "EnableVerboseLogon",
+                       "label":  "Enable verbose logon/shutdown messages",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "DisableUACPromptSecureDesktop",
+                       "label":  "Disable UAC secure desktop dimming (keeps UAC)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   }
+               ]
+}

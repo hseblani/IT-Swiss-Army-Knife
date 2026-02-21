@@ -1,0 +1,51 @@
+﻿{
+    "Id":  "network-security-audit",
+    "Name":  "Network \u0026 Security Auditor",
+    "Category":  "Security",
+    "Order":  6,
+    "Shell":  "Pwsh",
+    "Description":  "Perform a comprehensive audit of network exposure and local security configuration.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Perform a comprehensive audit of network exposure and local security configuration."
+                   },
+                   {
+                       "name":  "Action",
+                       "label":  "Action",
+                       "type":  "dropdown",
+                       "default":  "Full Audit",
+                       "options":  [
+                                       "Full Audit",
+                                       "Network Only",
+                                       "Security Only"
+                                   ]
+                   },
+                   {
+                       "name":  "ExportFolder",
+                       "label":  "Report Export Path",
+                       "type":  "folder",
+                       "default":  "__MODULE_OUTPUT__"
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Audit Options"
+                   },
+                   {
+                       "name":  "ScanPorts",
+                       "label":  "Scan Listening Ports",
+                       "type":  "checkbox",
+                       "default":  true,
+                       "inline":  true
+                   },
+                   {
+                       "name":  "ScanShares",
+                       "label":  "Scan SMB Shares",
+                       "type":  "checkbox",
+                       "default":  true,
+                       "inline":  true
+                   }
+               ]
+}

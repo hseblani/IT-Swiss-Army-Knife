@@ -1,0 +1,67 @@
+﻿{
+    "Id":  "user-enable-disable",
+    "Name":  "Enable/Disable User",
+    "Category":  "Identity",
+    "Order":  2,
+    "Shell":  "Pwsh",
+    "Description":  "Enable or disable local Windows user accounts with built-in safety protections.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Enable or disable local Windows user accounts with built-in safety protections."
+                   },
+                   {
+                       "name":  "OfflineWindowsPath",
+                       "label":  "Offline SAM Hive File (optional)",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  "",
+                       "filter":  "SAM Hive|SAM|All Files|*.*",
+                       "description":  "Browse to the SAM file (e.g., E:\\Windows\\System32\\Config\\SAM). Leave empty to use current Windows."
+                   },
+                   {
+                       "name":  "TargetUser",
+                       "label":  "Target User (to Enable/Disable)",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_users.ps1",
+                       "populateArgs":  [
+                                            "OfflineWindowsPath",
+                                            "AllowProtectedAccounts"
+                                        ]
+                   },
+                   {
+                       "name":  "AllowProtectedAccounts",
+                       "label":  "DANGER: Allow built-in accounts (Administrator/Guest...)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Off by default to prevent lockouts."
+                   },
+                   {
+                       "name":  "Operation",
+                       "label":  "Operation",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "Enable",
+                       "options":  [
+                                       "Enable",
+                                       "Disable"
+                                   ]
+                   }
+               ]
+}

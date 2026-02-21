@@ -1,0 +1,66 @@
+﻿{
+    "id":  "network-port-scanner",
+    "name":  "Port Scanner",
+    "category":  "Connectivity",
+    "Order":  8,
+    "description":  "Scan TCP ports on a local or remote host to identify available network services.",
+    "requiresAdmin":  false,
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Scan TCP ports on a local or remote host to identify available network services."
+                   },
+                   {
+                       "name":  "TargetHost",
+                       "label":  "Target Host (IP or hostname)",
+                       "type":  "text",
+                       "default":  "127.0.0.1"
+                   },
+                   {
+                       "name":  "ScanMode",
+                       "label":  "Scan Mode",
+                       "type":  "dropdown",
+                       "options":  [
+                                       "Quick Scan (Common Ports)",
+                                       "Full Scan (1-1024)",
+                                       "Web Services",
+                                       "Database Services",
+                                       "Remote Access",
+                                       "Custom Range"
+                                   ],
+                       "default":  "Quick Scan (Common Ports)"
+                   },
+                   {
+                       "name":  "CustomPorts",
+                       "label":  "Custom Ports (e.g., 80,443,8080 or 1000-2000)",
+                       "type":  "text",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "Timeout",
+                       "label":  "Connection Timeout (ms)",
+                       "type":  "text",
+                       "default":  "1000"
+                   },
+                   {
+                       "name":  "ShowClosedPorts",
+                       "label":  "Show Closed Ports in results",
+                       "type":  "checkbox",
+                       "default":  false
+                   },
+                   {
+                       "name":  "ResolveServices",
+                       "label":  "Resolve Service Names",
+                       "type":  "checkbox",
+                       "default":  true
+                   },
+                   {
+                       "name":  "ExportResults",
+                       "label":  "Export results to CSV on Desktop",
+                       "type":  "checkbox",
+                       "default":  false
+                   }
+               ]
+}

@@ -1,0 +1,75 @@
+﻿{
+    "Id":  "format-partition",
+    "Name":  "Format Partition",
+    "Category":  "Storage",
+    "Order":  3,
+    "Shell":  "Pwsh",
+    "Description":  "Format an existing partition with a specified file system. WARNING: This will erase all data on the partition.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "FormatInfo",
+                       "type":  "info",
+                       "default":  "[WARNING]\nFormatting will erase ALL DATA on the selected partition!\n- Always back up important data before formatting\n- Use WhatIf mode to preview the operation\n- Choose the appropriate file system for your needs\n- NTFS: Best for Windows, supports large files and permissions\n- FAT32: Compatible with most devices, 4GB file size limit\n- exFAT: Good for flash drives, no file size limit"
+                   },
+                   {
+                       "name":  "DiskNumber",
+                       "label":  "Select Disk",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_disks.ps1",
+                       "populateArgs":  [
+
+                                        ],
+                       "description":  "Select the disk containing the partition to format"
+                   },
+                   {
+                       "name":  "PartitionNumber",
+                       "label":  "Select Partition",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_partitions.ps1",
+                       "populateArgs":  [
+                                            "DiskNumber"
+                                        ],
+                       "description":  "Select the partition to format (automatically populated based on disk selection)"
+                   },
+                   {
+                       "name":  "FileSystem",
+                       "label":  "File System",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "NTFS",
+                       "options":  [
+                                       "NTFS",
+                                       "FAT32",
+                                       "exFAT",
+                                       "ReFS"
+                                   ]
+                   },
+                   {
+                       "name":  "VolumeLabel",
+                       "label":  "Volume Label (optional)",
+                       "type":  "text",
+                       "default":  "",
+                       "description":  "New name for the volume"
+                   }
+               ]
+}

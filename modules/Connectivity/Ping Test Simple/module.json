@@ -1,0 +1,25 @@
+﻿{
+    "name":  "Ping Test Simple",
+    "category":  "Connectivity",
+    "Order":  1,
+    "description":  "Simple Ping Test. \n- Turn on \"Continous\" to use -t parameter for countinous ping.",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Simple Ping Test. \n- Turn on \"Continous\" to use -t parameter for countinous ping."
+                   },
+                   {
+                       "name":  "Target",
+                       "label":  "IP Address",
+                       "type":  "text",
+                       "default":  "8.8.8.8"
+                   },
+                   {
+                       "name":  "Continuous",
+                       "label":  "Continuous",
+                       "type":  "checkbox",
+                       "default":  false
+                   }
+               ]
+}

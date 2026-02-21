@@ -1,0 +1,17 @@
+﻿{
+    "id":  "net-summary",
+    "name":  "Net Summary",
+    "category":  "Connectivity",
+    "Order":  3,
+    "description":  "This module requires no configuration.\nShows an easy overview of the computer\u0027s network setup and connection status. This module displays basic information such as network adapters, IP address, gateway, DNS servers, and whether the connection is active. It helps quickly check if the computer is properly connected to the network and spot common problems.\n\nUseful for quick checks, troubleshooting, and general system reviews.",
+    "requiresAdmin":  false,
+    "Shell":  "Pwsh",
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "This module requires no configuration.\nShows an easy overview of the computer\u0027s network setup and connection status. This module displays basic information such as network adapters, IP address, gateway, DNS servers, and whether the connection is active. It helps quickly check if the computer is properly connected to the network and spot common problems.\n\nUseful for quick checks, troubleshooting, and general system reviews."
+                   }
+               ]
+}

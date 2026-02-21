@@ -1,0 +1,148 @@
+﻿{
+    "Id":  "firewall-add-rule",
+    "Name":  "Add Firewall Rule",
+    "Category":  "Security",
+    "Order":  2,
+    "Shell":  "Pwsh",
+    "Description":  "Create custom Windows Firewall rules with precise control over traffic, ports, programs, and addresses.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Create custom Windows Firewall rules with precise control over traffic, ports, programs, and addresses."
+                   },
+                   {
+                       "name":  "DisplayName",
+                       "label":  "Rule Display Name",
+                       "type":  "text",
+                       "required":  true,
+                       "default":  "SAK - Custom Rule",
+                       "description":  "Unique display name for the new rule."
+                   },
+                   {
+                       "name":  "Direction",
+                       "label":  "Direction",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "Inbound",
+                       "options":  [
+                                       "Inbound",
+                                       "Outbound"
+                                   ],
+                       "description":  "Traffic direction to filter."
+                   },
+                   {
+                       "name":  "FirewallAction",
+                       "label":  "Action",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "Block",
+                       "options":  [
+                                       "Allow",
+                                       "Block"
+                                   ],
+                       "description":  "Allow or block matching traffic."
+                   },
+                   {
+                       "name":  "Enabled",
+                       "label":  "Enable Rule Immediately",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Enable the rule after creation."
+                   },
+                   {
+                       "name":  "Profile",
+                       "label":  "Network Profile",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "Any",
+                       "options":  [
+                                       "Any",
+                                       "Domain",
+                                       "Private",
+                                       "Public"
+                                   ],
+                       "description":  "Which network profile(s) to apply."
+                   },
+                   {
+                       "name":  "Protocol",
+                       "label":  "Protocol",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "TCP",
+                       "options":  [
+                                       "TCP",
+                                       "UDP",
+                                       "Any"
+                                   ],
+                       "description":  "Network protocol."
+                   },
+                   {
+                       "name":  "LocalPort",
+                       "label":  "Local Port(s)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Port(s): 80 or 80,443 or 1000-2000. Leave empty for any."
+                   },
+                   {
+                       "name":  "RemotePort",
+                       "label":  "Remote Port(s)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Remote port(s). Leave empty for any."
+                   },
+                   {
+                       "name":  "Program",
+                       "label":  "Program Path (optional)",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  "",
+                       "filter":  "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*",
+                       "description":  "Bind rule to specific program (.exe file)."
+                   },
+                   {
+                       "name":  "Service",
+                       "label":  "Service Name (optional)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Windows service short name (e.g., Spooler, wuauserv)."
+                   },
+                   {
+                       "name":  "LocalAddress",
+                       "label":  "Local Address (optional)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Local IP filter: 192.168.1.10 or 192.168.1.0/24"
+                   },
+                   {
+                       "name":  "RemoteAddress",
+                       "label":  "Remote Address (optional)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Remote IP filter: 10.0.0.0/8 or specific IP"
+                   },
+                   {
+                       "name":  "Description",
+                       "label":  "Description",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "Created by IT Swiss-Army Knife",
+                       "description":  "Optional description for documentation."
+                   },
+                   {
+                       "name":  "WhatIf",
+                       "label":  "Dry Run (WhatIf Mode)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Show what would be created without actually creating it."
+                   }
+               ]
+}

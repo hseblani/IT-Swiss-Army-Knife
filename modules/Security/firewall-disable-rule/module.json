@@ -1,0 +1,32 @@
+﻿{
+    "Id":  "firewall-disable-rule",
+    "Name":  "Disable Firewall Rule",
+    "Category":  "Security",
+    "Order":  5,
+    "Shell":  "Pwsh",
+    "Description":  "Disable Windows Firewall rules safely using name patterns and wildcard matching.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Disable Windows Firewall rules safely using name patterns and wildcard matching."
+                   },
+                   {
+                       "name":  "RuleName",
+                       "label":  "Rule Name Pattern (supports *)",
+                       "type":  "text",
+                       "required":  true,
+                       "default":  "*",
+                       "description":  "Pattern to match rules to disable. Example: Chrome*, *Remote Desktop*, SAK - *"
+                   },
+                   {
+                       "name":  "WhatIf",
+                       "label":  "Dry Run (WhatIf Mode)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Show what would be disabled without actually disabling."
+                   }
+               ]
+}

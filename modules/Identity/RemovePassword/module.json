@@ -1,0 +1,56 @@
+﻿{
+    "Id":  "user-remove-password",
+    "Name":  "Remove Password",
+    "Category":  "Identity",
+    "Order":  1,
+    "Shell":  "Pwsh",
+    "Description":  "Remove the password from a local Windows user account with safety safeguards.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Remove the password from a local Windows user account with safety safeguards."
+                   },
+                   {
+                       "name":  "OfflineWindowsPath",
+                       "label":  "Offline SAM Hive File (optional)",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  "",
+                       "filter":  "SAM Hive|SAM|All Files|*.*",
+                       "description":  "Browse to the SAM file (e.g., E:\\Windows\\System32\\Config\\SAM). Leave empty to use current Windows."
+                   },
+                   {
+                       "name":  "TargetUser",
+                       "label":  "Target User (to Remove Password)",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_users.ps1",
+                       "populateArgs":  [
+                                            "OfflineWindowsPath",
+                                            "AllowProtectedAccounts"
+                                        ]
+                   },
+                   {
+                       "name":  "AllowProtectedAccounts",
+                       "label":  "DANGER: Allow built-in accounts (Administrator/Guest...)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Off by default to prevent lockouts."
+                   }
+               ]
+}

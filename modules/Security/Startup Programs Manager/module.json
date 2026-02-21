@@ -1,0 +1,93 @@
+﻿{
+    "Id":  "startup-programs-manager",
+    "Name":  "Startup Programs Manager",
+    "Category":  "Security",
+    "Order":  8,
+    "Shell":  "Pwsh",
+    "Description":  "View and manage Windows startup programs to improve boot performance and system security.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "View and manage Windows startup programs to improve boot performance and system security."
+                   },
+                   {
+                       "name":  "Action",
+                       "label":  "Action",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "ViewAll",
+                       "RequiresAdmin":  true,
+                       "options":  [
+                                       "ViewAll",
+                                       "ViewEnabled",
+                                       "ViewDisabled",
+                                       "DisableByName",
+                                       "EnableByName",
+                                       "ExportList"
+                                   ],
+                       "description":  "**ViewAll**: Show all startup programs.\n**ViewEnabled**: Show only enabled startup programs.\n**ViewDisabled**: Show only disabled startup programs.\n**DisableByName**: Disable specific startup item(s).\n**EnableByName**: Enable specific startup item(s).\n**ExportList**: Export startup list to CSV file."
+                   },
+                   {
+                       "name":  "ItemName",
+                       "label":  "Program Name (for Enable/Disable)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Name of startup program to enable/disable. Supports partial matching. Use ViewAll first to see exact names."
+                   },
+                   {
+                       "name":  "IncludeServices",
+                       "label":  "Include Automatic Services",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Include automatic Windows services in the startup list. Warning: Shows many system services."
+                   },
+                   {
+                       "name":  "IncludeTaskScheduler",
+                       "label":  "Include Scheduled Tasks",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Include scheduled tasks that run at logon or startup."
+                   },
+                   {
+                       "name":  "ShowDetails",
+                       "label":  "Show Detailed Information",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Show additional details like file path, command line, and registry location."
+                   },
+                   {
+                       "name":  "ExportPath",
+                       "label":  "Export Folder (CSV will be created)",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "__MODULE_OUTPUT__",
+                       "description":  "Choose a writable folder. If you select a protected folder (like C:\\Windows or Program Files), export may fail unless the toolkit is running as Administrator.",
+                       "visibleWhen":  {
+                                           "Action":  "ExportList"
+                                       },
+                       "enabledWhen":  {
+                                           "Action":  "ExportList"
+                                       }
+                   },
+                   {
+                       "name":  "SortBy",
+                       "label":  "Sort Results By",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "Name",
+                       "options":  [
+                                       "Name",
+                                       "Status",
+                                       "Location",
+                                       "Impact"
+                                   ],
+                       "description":  "How to sort the startup programs list."
+                   }
+               ]
+}

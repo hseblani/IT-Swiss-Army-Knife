@@ -1,0 +1,48 @@
+﻿{
+    "id":  "repair-check-disk",
+    "name":  "Check Disk (CHKDSK)",
+    "category":  "Maintenance",
+    "Order":  1,
+    "description":  "Check and repair file system errors on a selected drive using CHKDSK.\n- Run CHKDSK in online scan mode (/scan)\n- Run CHKDSK in offline repair mode (/f)\n- Select target drive using browse controls\n- Scan for and recover bad sectors (/r, slow, may require reboot)",
+    "requiresAdmin":  true,
+    "Shell":  "WindowsPowerShell",
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Check and repair file system errors on a selected drive using CHKDSK.\n- Run CHKDSK in online scan mode (/scan)\n- Run CHKDSK in offline repair mode (/f)\n- Select target drive using browse controls\n- Scan for and recover bad sectors (/r, slow, may require reboot)"
+                   },
+                   {
+                       "name":  "OfflineMode",
+                       "label":  "Offline mode",
+                       "type":  "checkbox",
+                       "default":  false
+                   },
+                   {
+                       "name":  "OfflineBootDrive",
+                       "label":  "Offline boot drive",
+                       "type":  "drive",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "DriveLetter",
+                       "label":  "Target drive",
+                       "type":  "drive",
+                       "default":  "C:"
+                   },
+                   {
+                       "name":  "OnlineUseFixF",
+                       "label":  "Online: use /f (may require reboot)",
+                       "type":  "checkbox",
+                       "default":  false
+                   },
+                   {
+                       "name":  "OnlineUseR",
+                       "label":  "Scan for bad sectors (/r)",
+                       "type":  "checkbox",
+                       "default":  false,
+                       "description":  "Locates bad sectors and attempts recovery (very slow, implies /r)."
+                   }
+               ]
+}

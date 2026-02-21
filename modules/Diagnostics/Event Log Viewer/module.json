@@ -1,0 +1,124 @@
+﻿{
+    "Id":  "event-log-viewer",
+    "Name":  "Event Log Viewer",
+    "Category":  "Diagnostics",
+    "Order":  3,
+    "Shell":  "Pwsh",
+    "Description":  "View, filter, and export Windows Event Logs in a readable and structured format.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "View, filter, and export Windows Event Logs in a readable and structured format."
+                   },
+                   {
+                       "name":  "LogName",
+                       "label":  "Event Log",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "System",
+                       "options":  [
+                                       "System",
+                                       "Application",
+                                       "Security",
+                                       "Setup",
+                                       "All"
+                                   ],
+                       "description":  "Select which Windows Event Log to view."
+                   },
+                   {
+                       "name":  "EventLevel",
+                       "label":  "Event Level",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "All",
+                       "options":  [
+                                       "All",
+                                       "Critical",
+                                       "Error",
+                                       "Warning",
+                                       "Information"
+                                   ],
+                       "description":  "Filter events by severity level."
+                   },
+                   {
+                       "name":  "MaxEvents",
+                       "label":  "Maximum Events",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "100",
+                       "description":  "Maximum number of events to retrieve (recommended â‰¤ 1000)."
+                   },
+                   {
+                       "name":  "TimeRange",
+                       "label":  "Time Range",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "Last24Hours",
+                       "options":  [
+                                       "Last1Hour",
+                                       "Last6Hours",
+                                       "Last24Hours",
+                                       "Last7Days",
+                                       "Last30Days",
+                                       "All"
+                                   ],
+                       "description":  "Limit events to a specific time period."
+                   },
+                   {
+                       "name":  "EventID",
+                       "label":  "Event ID(s)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Optional Event ID filter. Supports comma-separated values (e.g. 1000,1001)."
+                   },
+                   {
+                       "name":  "SearchText",
+                       "label":  "Search Text",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Search for text inside event messages."
+                   },
+                   {
+                       "name":  "ExportFormat",
+                       "label":  "Export Format",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "None",
+                       "options":  [
+                                       "None",
+                                       "CSV",
+                                       "HTML",
+                                       "JSON"
+                                   ],
+                       "description":  "Optional export of results to a file."
+                   },
+                   {
+                       "name":  "ExportPath",
+                       "label":  "Export File Path",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  "__MODULE_OUTPUT__",
+                       "description":  "Optional export path. If empty, a timestamped file is created automatically."
+                   },
+                   {
+                       "name":  "GroupBySource",
+                       "label":  "Show Summary by Source",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Display summary statistics grouped by event source/provider."
+                   },
+                   {
+                       "name":  "ShowTopErrors",
+                       "label":  "Show Top Issues",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Show the most frequent errors and warnings."
+                   }
+               ]
+}

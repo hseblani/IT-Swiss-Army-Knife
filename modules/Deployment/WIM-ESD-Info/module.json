@@ -1,0 +1,23 @@
+﻿{
+    "id":  "repair-wim-esd-info",
+    "name":  "WIM/ESD Info (List Editions/Indexes)",
+    "category":  "Deployment",
+    "Order":  1,
+    "description":  "View Windows editions and index details inside a WIM or ESD image file.",
+    "requiresAdmin":  true,
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "View Windows editions and index details inside a WIM or ESD image file."
+                   },
+                   {
+                       "name":  "ImagePath",
+                       "label":  "WIM/ESD file (install.wim / install.esd)",
+                       "type":  "file",
+                       "default":  "",
+                       "filter":  "Windows Images (*.wim;*.esd)|*.wim;*.esd"
+                   }
+               ]
+}

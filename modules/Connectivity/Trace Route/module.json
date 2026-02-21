@@ -1,0 +1,38 @@
+﻿{
+    "name":  "Trace Route",
+    "category":  "Connectivity",
+    "Order":  6,
+    "description":  "Trace the network path to a destination and identify each hop along the route.\n- Target host or IP address.\n- Maximum number of hops.\n- Resolve hop IP addresses to hostnames.\n- Show detailed hop-by-hop results.",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Trace the network path to a destination and identify each hop along the route.\n- Target host or IP address.\n- Maximum number of hops.\n- Resolve hop IP addresses to hostnames.\n- Show detailed hop-by-hop results."
+                   },
+                   {
+                       "name":  "Target",
+                       "label":  "Target Host/IP",
+                       "type":  "text",
+                       "default":  "8.8.8.8"
+                   },
+                   {
+                       "name":  "MaxHops",
+                       "label":  "Maximum Hops",
+                       "type":  "text",
+                       "default":  "30"
+                   },
+                   {
+                       "name":  "ResolveHostnames",
+                       "label":  "Resolve Hostnames",
+                       "type":  "checkbox",
+                       "default":  false
+                   },
+                   {
+                       "name":  "ShowHops",
+                       "label":  "Show Hops",
+                       "type":  "checkbox",
+                       "default":  false
+                   }
+               ],
+    "runPath":  "run.ps1"
+}

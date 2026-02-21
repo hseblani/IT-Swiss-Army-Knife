@@ -1,0 +1,82 @@
+﻿{
+    "Id":  "drive-letter-manager",
+    "Name":  "Drive Letters Manager",
+    "Category":  "Storage",
+    "Order":  5,
+    "Shell":  "Pwsh",
+    "Description":  "Assign, change, or remove drive letters for volumes and partitions. Manage drive letter assignments.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "DriveLetterInfo",
+                       "type":  "info",
+                       "default":  "Drive Letter Management:\n- List: Show all volumes and their drive letters\n- Assign: Add a drive letter to a volume without one\n- Change: Change existing drive letter to a new one\n- Remove: Remove drive letter from a volume"
+                   },
+                   {
+                       "name":  "Operation",
+                       "label":  "Operation",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "List Drive Letters",
+                       "options":  [
+                                       "List Drive Letters",
+                                       "Assign Drive Letter",
+                                       "Change Drive Letter",
+                                       "Remove Drive Letter"
+                                   ]
+                   },
+                   {
+                       "name":  "DiskNumber",
+                       "label":  "Select Disk",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_disks.ps1",
+                       "populateArgs":  [
+                                            "Operation"
+                                        ],
+                       "description":  "Select the disk to work with"
+                   },
+                   {
+                       "name":  "PartitionNumber",
+                       "label":  "Select Partition",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_partitions.ps1",
+                       "populateArgs":  [
+                                            "DiskNumber"
+                                        ],
+                       "description":  "Select the partition to work with (automatically populated based on disk selection)"
+                   },
+                   {
+                       "name":  "CurrentDriveLetter",
+                       "label":  "Current Drive Letter (for Change operation)",
+                       "type":  "text",
+                       "default":  "",
+                       "description":  "Current drive letter (e.g., E, F, G)"
+                   },
+                   {
+                       "name":  "NewDriveLetter",
+                       "label":  "New Drive Letter",
+                       "type":  "text",
+                       "default":  "",
+                       "description":  "Drive letter to assign (e.g., E, F, G)"
+                   }
+               ]
+}

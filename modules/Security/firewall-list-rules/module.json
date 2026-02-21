@@ -1,0 +1,93 @@
+﻿{
+    "Id":  "firewall-list-rules",
+    "Name":  "List Firewall Rules",
+    "Category":  "Security",
+    "Order":  1,
+    "Shell":  "Pwsh",
+    "Description":  "View and filter Windows Firewall rules for inspection, documentation, and analysis.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "View and filter Windows Firewall rules for inspection, documentation, and analysis."
+                   },
+                   {
+                       "name":  "RuleName",
+                       "label":  "Rule Name Pattern (supports *)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "*",
+                       "description":  "Filter rules by name. Examples: Chrome*, *Remote Desktop*, *"
+                   },
+                   {
+                       "name":  "IncludeDisabled",
+                       "label":  "Include Disabled Rules",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Show both enabled and disabled rules."
+                   },
+                   {
+                       "name":  "DirectionFilter",
+                       "label":  "Direction Filter",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "Any",
+                       "options":  [
+                                       "Any",
+                                       "Inbound",
+                                       "Outbound"
+                                   ],
+                       "description":  "Filter by traffic direction."
+                   },
+                   {
+                       "name":  "ActionFilter",
+                       "label":  "Action Filter",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "Any",
+                       "options":  [
+                                       "Any",
+                                       "Allow",
+                                       "Block"
+                                   ],
+                       "description":  "Filter by allow or block action."
+                   },
+                   {
+                       "name":  "ProfileFilter",
+                       "label":  "Profile Filter",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "Any",
+                       "options":  [
+                                       "Any",
+                                       "Domain",
+                                       "Private",
+                                       "Public"
+                                   ],
+                       "description":  "Filter by network profile."
+                   },
+                   {
+                       "name":  "ExportFormat",
+                       "label":  "Export Format",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "None",
+                       "options":  [
+                                       "None",
+                                       "CSV",
+                                       "JSON"
+                                   ],
+                       "description":  "Export results to file. None = display only."
+                   },
+                   {
+                       "name":  "ExportPath",
+                       "label":  "Export File Path (optional)",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Custom export path. If empty, creates timestamped file in module folder."
+                   }
+               ]
+}

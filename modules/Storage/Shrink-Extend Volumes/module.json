@@ -1,0 +1,60 @@
+﻿{
+    "Id":  "volume-resize",
+    "Name":  "Shrink/Extend Volumes",
+    "Category":  "Storage",
+    "Order":  6,
+    "Shell":  "Pwsh",
+    "Description":  "Resize existing volumes/partitions. Shrink volumes to free up space or extend volumes to use available free space.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "VolumeInfo",
+                       "type":  "info",
+                       "default":  "Volume Resize Information:\n- Shrink: Reduce volume size to create free space\n- Extend: Increase volume size using adjacent free space\n- Shrinking requires defragmentation for best results\n- Cannot shrink below used space"
+                   },
+                   {
+                       "name":  "Operation",
+                       "label":  "Operation",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "List Volumes",
+                       "options":  [
+                                       "List Volumes",
+                                       "Shrink Volume",
+                                       "Extend Volume",
+                                       "Get Maximum Shrink Size"
+                                   ]
+                   },
+                   {
+                       "name":  "DriveLetter",
+                       "label":  "Select Volume/Drive",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_volumes.ps1",
+                       "populateArgs":  [
+                                            "Operation"
+                                        ],
+                       "reloadLabel":  "Refresh List",
+                       "description":  "Select the volume to resize"
+                   },
+                   {
+                       "name":  "SizeChange",
+                       "label":  "Size Change (MB or GB or MAX)",
+                       "type":  "text",
+                       "default":  "MAX",
+                       "description":  "Amount to shrink/extend. For shrink: use MAX for maximum. For extend: use MAX to use all available space. Examples: 10GB, 5120MB, MAX"
+                   }
+               ]
+}

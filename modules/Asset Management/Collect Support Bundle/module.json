@@ -1,0 +1,192 @@
+﻿{
+    "Id":  "collect-support-bundle",
+    "Name":  "Collect Support Bundle",
+    "Category":  "Asset Management",
+    "Order":  1,
+    "Shell":  "Pwsh",
+    "Description":  "Collect a comprehensive support bundle of system logs and diagnostics into a single package for troubleshooting.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Collect a comprehensive support bundle of system logs and diagnostics into a single package for troubleshooting."
+                   },
+                   {
+                       "name":  "OutputFolder",
+                       "label":  "Output folder",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "__MODULE_OUTPUT__"
+                   },
+                   {
+                       "name":  "BundleName",
+                       "label":  "Bundle name",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "SupportBundle"
+                   },
+                   {
+                       "name":  "AddTimestamp",
+                       "label":  "Add timestamp",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "CreateZip",
+                       "label":  "Create ZIP archive",
+                       "type":  "checkbox",
+                       "default":  false,
+                       "description":  "If enabled, compress the bundle folder into a ZIP file."
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Performance and safety"
+                   },
+                   {
+                       "name":  "CmdTimeoutSec",
+                       "label":  "Command timeout (seconds)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "60"
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Toggle Events Only ON to disable other options"
+                   },
+                   {
+                       "name":  "EventsOnly",
+                       "label":  "Events only (disable other sections)",
+                       "type":  "checkbox",
+                       "default":  false,
+                       "description":  "Collect only event logs. Automatically disables other collection sections.",
+                       "disables":  [
+                                        "IncludeSystemInfo",
+                                        "IncludeNetwork",
+                                        "IncludeServices",
+                                        "IncludeInstalledApps",
+                                        "IncludeDrivers",
+                                        "IncludeDisk",
+                                        "IncludeDefender",
+                                        "IncludeMinidumps",
+                                        "IncludeCBSLogs",
+                                        "IncludeEventLogs"
+                                    ]
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Include sections"
+                   },
+                   {
+                       "name":  "IncludeSystemInfo",
+                       "label":  "System info",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "IncludeNetwork",
+                       "label":  "Network",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "IncludeDisk",
+                       "label":  "Disk and volume info",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "IncludeServices",
+                       "label":  "Services and processes",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "IncludeInstalledApps",
+                       "label":  "Installed apps",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "IncludeDrivers",
+                       "label":  "Drivers inventory",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "IncludeDefender",
+                       "label":  "Defender status (if available)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "IncludeEventLogs",
+                       "label":  "Include Event Logs",
+                       "type":  "checkbox",
+                       "default":  false,
+                       "description":  "Collect Windows event logs (System/Application/Security) according to EventLogsMode."
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Optional"
+                   },
+                   {
+                       "name":  "IncludeMinidumps",
+                       "label":  "Include Minidumps folder (if exists)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "IncludeCBSLogs",
+                       "label":  "Include CBS logs (if exists)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Event logs settings"
+                   },
+                   {
+                       "name":  "EventLogsMode",
+                       "label":  "Event logs mode",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "EvtxFast",
+                       "options":  [
+                                       "EvtxFast",
+                                       "JsonSummary"
+                                   ]
+                   },
+                   {
+                       "name":  "EventLogDays",
+                       "label":  "Event logs: last N days",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "7"
+                   },
+                   {
+                       "name":  "MaxEventsPerLog",
+                       "label":  "Max events per log (JsonSummary only)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "500"
+                   }
+               ]
+}

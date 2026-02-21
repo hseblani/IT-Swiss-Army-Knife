@@ -1,0 +1,70 @@
+{
+    "Id": "copy-data",
+    "Name": "Copy Data",
+    "Category": "Storage",
+    "Order": 11,
+    "Shell": "Pwsh",
+    "Description": "Copy files or folders using Robocopy with safe replacement and optional filters.",
+    "RunPath": "run.ps1",
+    "Params": [
+        {
+            "name": "InfoNote",
+            "type": "info",
+            "default": "Copy files or folders using Robocopy with safe replacement and optional filters."
+        },
+        {
+            "name": "Source",
+            "label": "Source Path",
+            "type": "folder",
+            "required": true,
+            "default": "",
+            "description": "Source file or folder."
+        },
+        {
+            "name": "Destination",
+            "label": "Destination Path",
+            "type": "folder",
+            "required": true,
+            "default": "",
+            "description": "Destination folder (or file with same name as source file)."
+        },
+        {
+            "name": "FileTypes",
+            "label": "File Types (patterns)",
+            "type": "text",
+            "required": false,
+            "default": "*.txt;*.log",
+            "description": "Patterns separated by ; or , (e.g., *.txt;*.log). Ignored when All Files is enabled."
+        },
+        {
+            "name": "AllFiles",
+            "label": "All Files",
+            "type": "checkbox",
+            "required": false,
+            "default": true,
+            "description": "Copy all files regardless of extension.",
+            "disables": [
+                "DirectoriesOnly"
+            ]
+        },
+        {
+            "name": "DirectoriesOnly",
+            "label": "Directories Only",
+            "type": "checkbox",
+            "required": false,
+            "default": false,
+            "description": "Copy folders only (no files).",
+            "disables": [
+                "AllFiles"
+            ]
+        },
+        {
+            "name": "ReplaceExisting",
+            "label": "Replace Existing Files",
+            "type": "checkbox",
+            "required": false,
+            "default": false,
+            "description": "Overwrite existing files at destination."
+        }
+    ]
+}

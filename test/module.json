@@ -1,0 +1,10 @@
+﻿{
+    "Id": "test",
+    "Name": "test",
+    "Category": "545454545",
+    "Shell": "Pwsh",
+    "Description": "New module",
+    "RunPath": "run.ps1",
+    "Order": 1,
+    "Params": []
+}

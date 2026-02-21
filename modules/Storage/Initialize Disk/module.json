@@ -1,0 +1,51 @@
+﻿{
+    "Id":  "initialize-disk",
+    "Name":  "Initialize Disk",
+    "Category":  "Storage",
+    "Order":  4,
+    "Shell":  "Pwsh",
+    "Description":  "Initialize a new or RAW disk with GPT or MBR partition style. Required before creating partitions on a new disk.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "InitInfo",
+                       "type":  "info",
+                       "default":  "Initialize a RAW disk before creating partitions.\n- GPT: Recommended for modern systems, supports disks \u003e2TB\n- MBR: Legacy systems, limited to 2TB disks\n- Only RAW (uninitialized) disks can be initialized\n- This operation does not erase data, but prepares disk structure"
+                   },
+                   {
+                       "name":  "DiskNumber",
+                       "label":  "Select Disk",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_disks.ps1",
+                       "populateArgs":  [
+
+                                        ],
+                       "description":  "Select the disk to initialize (must be RAW/uninitialized)"
+                   },
+                   {
+                       "name":  "PartitionStyle",
+                       "label":  "Partition Style",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "GPT",
+                       "options":  [
+                                       "GPT",
+                                       "MBR"
+                                   ],
+                       "description":  "GPT recommended for modern systems and disks \u003e2TB"
+                   }
+               ]
+}

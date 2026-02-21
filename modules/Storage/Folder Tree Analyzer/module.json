@@ -1,0 +1,77 @@
+﻿{
+    "Id":  "folder-tree-analyzer",
+    "Name":  "Folder Tree Analyzer",
+    "Category":  "Storage",
+    "Order":  10,
+    "Shell":  "Pwsh",
+    "Description":  "Analyze folder structure and disk usage by generating a hierarchical tree report.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Analyze folder structure and disk usage by generating a hierarchical tree report."
+                   },
+                   {
+                       "name":  "Action",
+                       "label":  "Action",
+                       "type":  "dropdown",
+                       "default":  "GenerateReport",
+                       "options":  [
+                                       "GenerateReport",
+                                       "ScanOnly"
+                                   ]
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Target"
+                   },
+                   {
+                       "name":  "TargetFolder",
+                       "label":  "Select Folder to Scan",
+                       "type":  "folder",
+                       "required":  true,
+                       "default":  "C:\\Users"
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Scan Settings"
+                   },
+                   {
+                       "name":  "MaxDepth",
+                       "label":  "Scan Depth (Levels)",
+                       "type":  "dropdown",
+                       "default":  "3",
+                       "options":  [
+                                       "1",
+                                       "2",
+                                       "3",
+                                       "4",
+                                       "5",
+                                       "Unlimited"
+                                   ]
+                   },
+                   {
+                       "name":  "IncludeFiles",
+                       "label":  "Include Files in Tree",
+                       "type":  "checkbox",
+                       "default":  true
+                   },
+                   {
+                       "name":  "ShowHidden",
+                       "label":  "Show Hidden Items",
+                       "type":  "checkbox",
+                       "default":  false
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Export"
+                   },
+                   {
+                       "name":  "ExportFolder",
+                       "label":  "Save Report To",
+                       "type":  "folder",
+                       "default":  "__MODULE_OUTPUT__"
+                   }
+               ]
+}

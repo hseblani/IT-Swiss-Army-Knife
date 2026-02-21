@@ -1,0 +1,38 @@
+﻿{
+    "id":  "network-wifi-passwords",
+    "name":  "WiFi Password Viewer",
+    "category":  "Connectivity",
+    "Order":  10,
+    "description":  "View saved WiFi networks and reveal stored passwords on the local system.",
+    "requiresAdmin":  true,
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "View saved WiFi networks and reveal stored passwords on the local system."
+                   },
+                   {
+                       "name":  "Action",
+                       "label":  "Action",
+                       "type":  "dropdown",
+                       "options":  [
+                                       "List All WiFi Profiles",
+                                       "Show Password for Specific Profile"
+                                   ],
+                       "default":  "List All WiFi Profiles"
+                   },
+                   {
+                       "name":  "ProfileName",
+                       "label":  "WiFi Profile Name (for Show Password action)",
+                       "type":  "text",
+                       "default":  ""
+                   },
+                   {
+                       "name":  "ExportToFile",
+                       "label":  "Export all passwords to Desktop (CSV)",
+                       "type":  "checkbox",
+                       "default":  false
+                   }
+               ]
+}

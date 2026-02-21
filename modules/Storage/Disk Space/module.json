@@ -1,0 +1,17 @@
+﻿{
+    "id":  "disk-space",
+    "name":  "Disk Space",
+    "category":  "Storage",
+    "Order":  7,
+    "description":  "This module requires no configuration.\n\nClick RUN to view disk space information for all local drives including:\n- Total capacity\n- Used and free space\n- Usage percentage\n- Visual usage bars\n- Warnings for drives over 80% full",
+    "requiresAdmin":  false,
+    "Shell":  "Pwsh",
+    "runPath":  "run.ps1",
+    "params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "This module requires no configuration.\n\nClick RUN to view disk space information for all local drives including:\n- Total capacity\n- Used and free space\n- Usage percentage\n- Visual usage bars\n- Warnings for drives over 80% full"
+                   }
+               ]
+}

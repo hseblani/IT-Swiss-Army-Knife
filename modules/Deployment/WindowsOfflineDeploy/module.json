@@ -1,0 +1,368 @@
+﻿{
+    "Id":  "windows-offline-deploy",
+    "Name":  "Deploy Windows to Offline Disk",
+    "Category":  "Deployment",
+    "Order":  2,
+    "Shell":  "Pwsh",
+    "Description":  "Deploy Windows to an offline disk by partitioning, applying an image, and creating boot files with advanced safety and automation options.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Deploy Windows to an offline disk by partitioning, applying an image, and creating boot files with advanced safety and automation options."
+                   },
+                   {
+                       "name":  "Action",
+                       "label":  "Action",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "Deploy",
+                       "options":  [
+                                       "Deploy",
+                                       "ListImages",
+                                       "DryRunPlan"
+                                   ],
+                       "description":  "**Deploy** runs the full workflow.\n**ListImages** shows available editions/indexes in the selected source.\n**DryRunPlan** outputs the planned diskpart/DISM/BCDBOOT commands without executing.",
+                       "ui":  {
+                                  "control":  "dropdown"
+                              }
+                   },
+                   {
+                       "name":  "SourceType",
+                       "label":  "Source Type",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "ISO",
+                       "options":  [
+                                       "ISO",
+                                       "WIM",
+                                       "ESD"
+                                   ],
+                       "description":  "Choose ISO to auto-mount and detect install.wim/esd, or select WIM/ESD directly.",
+                       "ui":  {
+                                  "control":  "dropdown"
+                              }
+                   },
+                   {
+                       "name":  "IsoPath",
+                       "label":  "ISO Path",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  "",
+                       "filter":  "ISO Files (*.iso)|*.iso|All Files (*.*)|*.*",
+                       "description":  "Path to Windows ISO file. Used when SourceType=ISO.",
+                       "ui":  {
+                                  "visibleWhen":  {
+                                                      "SourceType":  [
+                                                                         "ISO"
+                                                                     ]
+                                                  }
+                              }
+                   },
+                   {
+                       "name":  "ImagePath",
+                       "label":  "Install Image Path (WIM/ESD)",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  "",
+                       "filter":  "Windows Images (*.wim;*.esd)|*.wim;*.esd|All Files (*.*)|*.*",
+                       "description":  "Path to install.wim or install.esd. Used when SourceType=WIM or ESD.",
+                       "ui":  {
+                                  "visibleWhen":  {
+                                                      "SourceType":  [
+                                                                         "WIM",
+                                                                         "ESD"
+                                                                     ]
+                                                  }
+                              }
+                   },
+                   {
+                       "name":  "ImageIndex",
+                       "label":  "Image Index",
+                       "type":  "text",
+                       "required":  true,
+                       "default":  "1",
+                       "description":  "Windows image index to apply (e.g., 1 for Home, 6 for Pro). Use Action=ListImages to discover available editions and their indexes.",
+                       "ui":  {
+                                  "helpAction":  "ListImages",
+                                  "autofillFrom":  "__IMAGE_LIST_JSON__"
+                              }
+                   },
+                   {
+                       "name":  "TargetDiskNumber",
+                       "label":  "Target Disk Number",
+                       "type":  "text",
+                       "required":  true,
+                       "default":  "1",
+                       "description":  "DISK NUMBER to wipe/partition and deploy to (e.g., 1). WARNING: This will ERASE THE ENTIRE DISK. Use diskpart \u0027list disk\u0027 to identify disk numbers. Disk 0 is blocked for safety.",
+                       "ui":  {
+                                  "badge":  "danger"
+                              }
+                   },
+                   {
+                       "name":  "FirmwareType",
+                       "label":  "Firmware / Partition Style",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "UEFI",
+                       "options":  [
+                                       "UEFI",
+                                       "BIOS",
+                                       "ALL"
+                                   ],
+                       "description":  "UEFI = GPT (recommended for modern systems). BIOS = MBR (legacy systems). ALL = create boot files for both (requires UEFI/GPT disk).",
+                       "ui":  {
+                                  "control":  "dropdown"
+                              }
+                   },
+                   {
+                       "name":  "EfiSizeMB",
+                       "label":  "EFI Partition Size (MB)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "260",
+                       "description":  "UEFI only. Size of EFI System Partition. Typical range: 100-512MB. Microsoft recommends 100MB minimum, 260MB for updates. Default: 260MB.",
+                       "ui":  {
+                                  "visibleWhen":  {
+                                                      "FirmwareType":  [
+                                                                           "UEFI",
+                                                                           "ALL"
+                                                                       ]
+                                                  }
+                              }
+                   },
+                   {
+                       "name":  "SystemReservedMB",
+                       "label":  "System Reserved Size (MB)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "500",
+                       "description":  "BIOS/MBR only. Size of System Reserved partition for boot files. Typical: 500MB. Default: 500MB.",
+                       "ui":  {
+                                  "visibleWhen":  {
+                                                      "FirmwareType":  [
+                                                                           "BIOS",
+                                                                           "ALL"
+                                                                       ]
+                                                  }
+                              }
+                   },
+                   {
+                       "name":  "RecoveryPartition",
+                       "label":  "Create Recovery Partition",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Create a WinRE recovery partition by shrinking the OS partition. Recommended for production deployments. Default size: 1024MB."
+                   },
+                   {
+                       "name":  "RecoverySizeMB",
+                       "label":  "Recovery Partition Size (MB)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "1024",
+                       "description":  "Recovery partition size if enabled. Microsoft recommends at least 990MB. Default: 1024MB.",
+                       "ui":  {
+                                  "visibleWhen":  {
+                                                      "RecoveryPartition":  [
+                                                                                true
+                                                                            ]
+                                                  }
+                              }
+                   },
+                   {
+                       "name":  "AssignDriveLetters",
+                       "label":  "Assign Temporary Drive Letters (S:, W:)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Assign S: to EFI/System partition and W: to Windows partition during deployment. Required for deployment. Disable only if you have conflicts."
+                   },
+                   {
+                       "name":  "DriverFolderPath",
+                       "label":  "Driver Folder (optional)",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Inject device drivers offline using DISM /Add-Driver /Recurse. Point to a folder containing .inf driver files. Useful for storage, network, and chipset drivers."
+                   },
+                   {
+                       "name":  "UpdatesFolderPath",
+                       "label":  "Updates Folder (CAB/MSU) (optional)",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Inject Windows updates offline. CAB files are added directly. MSU files are expanded then added. Speeds up first boot and ensures security patches."
+                   },
+                   {
+                       "name":  "EnableNetFx3",
+                       "label":  "Enable .NET Framework 3.5 (NetFx3)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Enable .NET Framework 3.5 offline. Required for some legacy applications. Requires SxS source (automatically available from ISO)."
+                   },
+                   {
+                       "name":  "SxsSourcePath",
+                       "label":  "SxS Source Path (optional)",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "If not using ISO, provide path to \\sources\\sxs for NetFx3 installation. Only needed if SourceType is WIM/ESD.",
+                       "ui":  {
+                                  "visibleWhen":  {
+                                                      "EnableNetFx3":  [
+                                                                           true
+                                                                       ]
+                                                  }
+                              }
+                   },
+                   {
+                       "name":  "UnattendXmlPath",
+                       "label":  "Unattend.xml Path (optional)",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  "",
+                       "filter":  "XML Files (*.xml)|*.xml|All Files (*.*)|*.*",
+                       "description":  "Path to custom Unattend.xml for automated setup. If provided, copied to W:\\Windows\\Panther\\Unattend.xml. Takes precedence over auto-generation."
+                   },
+                   {
+                       "name":  "AutoGenerateUnattend",
+                       "label":  "Auto-Generate Unattend.xml",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Generate a minimal Unattend.xml with computer name, local admin account, and basic OOBE settings. Ignored if UnattendXmlPath is provided."
+                   },
+                   {
+                       "name":  "ComputerName",
+                       "label":  "Computer Name (optional)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "WIN-PC",
+                       "description":  "Computer name for auto-generated Unattend.xml. If empty, defaults to \u0027WIN-PC\u0027.",
+                       "ui":  {
+                                  "visibleWhen":  {
+                                                      "AutoGenerateUnattend":  [
+                                                                                   true
+                                                                               ]
+                                                  }
+                              }
+                   },
+                   {
+                       "name":  "LocalAdminUser",
+                       "label":  "Local Admin Username (optional)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "Admin",
+                       "description":  "Local administrator username for auto-generated Unattend.xml. Default: \u0027Admin\u0027.",
+                       "ui":  {
+                                  "visibleWhen":  {
+                                                      "AutoGenerateUnattend":  [
+                                                                                   true
+                                                                               ]
+                                                  }
+                              }
+                   },
+                   {
+                       "name":  "LocalAdminPassword",
+                       "label":  "Local Admin Password",
+                       "type":  "password",
+                       "required":  false,
+                       "default":  "",
+                       "inline":  true,
+                       "description":  "Local administrator password for auto-generated Unattend.xml.",
+                       "ui":  {
+                                  "visibleWhen":  {
+                                                      "AutoGenerateUnattend":  [
+                                                                                   true
+                                                                               ]
+                                                  }
+                              }
+                   },
+                   {
+                       "name":  "LocalAdminPasswordConfirm",
+                       "label":  "Confirm Password",
+                       "type":  "password",
+                       "required":  false,
+                       "default":  "",
+                       "inline":  true,
+                       "ui":  {
+                                  "visibleWhen":  {
+                                                      "AutoGenerateUnattend":  [
+                                                                                   true
+                                                                               ]
+                                                  }
+                              }
+                   },
+                   {
+                       "name":  "TimeZone",
+                       "label":  "Time Zone",
+                       "type":  "dropdown",
+                       "required":  false,
+                       "default":  "Middle East Standard Time",
+                       "options":  [
+                                       "UTC",
+                                       "Middle East Standard Time",
+                                       "Arab Standard Time",
+                                       "E. Europe Standard Time",
+                                       "W. Europe Standard Time",
+                                       "GMT Standard Time",
+                                       "US Eastern Standard Time",
+                                       "US Pacific Standard Time",
+                                       "Central Standard Time",
+                                       "Pacific Standard Time"
+                                   ],
+                       "description":  "Time zone for auto-generated Unattend.xml. Applied during Windows setup.",
+                       "ui":  {
+                                  "control":  "dropdown",
+                                  "visibleWhen":  {
+                                                      "AutoGenerateUnattend":  [
+                                                                                   true
+                                                                               ]
+                                                  }
+                              }
+                   },
+                   {
+                       "name":  "OfflineTweaks",
+                       "label":  "Apply Offline Registry Tweaks",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Apply safe offline registry tweaks: disable Windows consumer features, spotlight features, and consumer account state content. Safe for all editions."
+                   },
+                   {
+                       "name":  "VerifyAfterApply",
+                       "label":  "Verify After Apply",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true,
+                       "description":  "Perform basic verification checks after applying image and creating boot files. Recommended to ensure successful deployment."
+                   },
+                   {
+                       "name":  "ApplyCompact",
+                       "label":  "Apply Image with Compact Mode (/Compact)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "Use DISM /Apply-Image /Compact to compress files and reduce disk space usage. Slower to apply but saves 2-3GB. Useful for small SSDs (32-64GB)."
+                   },
+                   {
+                       "name":  "Confirmation",
+                       "label":  "Safety Confirmation: Type \u0027WIPE\u0027 to Proceed",
+                       "type":  "text",
+                       "required":  true,
+                       "default":  "",
+                       "description":  "SAFETY CHECKPOINT: You MUST type the word \u0027WIPE\u0027 (exactly, all caps) to confirm disk erasure. This prevents accidental data loss. Without this confirmation, the deployment will abort."
+                   },
+                   {
+                       "name":  "LogPath",
+                       "label":  "Log File Path (optional)",
+                       "type":  "file",
+                       "required":  false,
+                       "default":  "",
+                       "description":  "Custom log file path. If empty, a timestamped log file is created in the module folder (deploy-windows-YYYYMMDD-HHMMSS.log)."
+                   }
+               ]
+}

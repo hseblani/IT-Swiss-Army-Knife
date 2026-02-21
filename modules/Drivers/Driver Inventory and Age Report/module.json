@@ -1,0 +1,66 @@
+﻿{
+    "Id":  "driver-inventory-age-report",
+    "Name":  "Driver Inventory and Age Report",
+    "Category":  "Drivers",
+    "Order":  3,
+    "Shell":  "Pwsh",
+    "Description":  "Generate an inventory of installed drivers and identify outdated ones based on age.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Generate an inventory of installed drivers and identify outdated ones based on age."
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Report settings"
+                   },
+                   {
+                       "name":  "AgeYears",
+                       "label":  "Flag drivers older than (years)",
+                       "type":  "text",
+                       "required":  false,
+                       "default":  "3"
+                   },
+                   {
+                       "name":  "IncludeOnlyPresentDevices",
+                       "label":  "Only present devices",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Export"
+                   },
+                   {
+                       "name":  "ExportFolder",
+                       "label":  "Export folder",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "__MODULE_OUTPUT__"
+                   },
+                   {
+                       "name":  "ExportJson",
+                       "label":  "Export JSON",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "ExportCsv",
+                       "label":  "Export CSV",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   }
+               ]
+}

@@ -1,0 +1,47 @@
+﻿{
+    "Id":  "clean-disk",
+    "Name":  "Clean Disk",
+    "Category":  "Maintenance",
+    "Order":  4,
+    "Shell":  "Pwsh",
+    "Description":  "Remove ALL partitions from a disk, returning it to RAW/uninitialized state. EXTREME CAUTION: This erases everything on the disk!",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "CleanInfo",
+                       "type":  "info",
+                       "default":  "[EXTREME DANGER] CLEAN DISK\nThis operation removes ALL PARTITIONS from the disk!\n- ALL DATA ON THE ENTIRE DISK WILL BE LOST -\n- This affects the ENTIRE disk, not just one partition\n- Cannot be undone\n- Disk will be returned to RAW/uninitialized state\n- Use Initialize Disk after cleaning to prepare for new partitions\n- ALWAYS use WhatIf mode first to verify!\n- TRIPLE CHECK you have the correct disk selected!"
+                   },
+                   {
+                       "name":  "DiskNumber",
+                       "label":  "Select Disk",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "",
+                       "options":  [
+
+                                   ],
+                       "dynamic":  true,
+                       "populateScript":  "..\\..\\_shared\\populate_disks.ps1",
+                       "populateArgs":  [
+
+                                        ],
+                       "description":  "- Select disk to clean - ALL DATA WILL BE LOST -"
+                   },
+                   {
+                       "name":  "ConfirmClean",
+                       "label":  "I understand all data will be lost",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false,
+                       "description":  "You must check this box to acknowledge data loss"
+                   }
+               ]
+}

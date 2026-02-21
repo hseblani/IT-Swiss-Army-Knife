@@ -1,0 +1,79 @@
+﻿{
+    "Id":  "windows-update-manager",
+    "Name":  "Windows Update Manager",
+    "Category":  "Maintenance",
+    "Order":  7,
+    "Shell":  "Pwsh",
+    "Description":  "Manage Windows Updates by checking, installing, viewing history, or resetting update components.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Manage Windows Updates by checking, installing, viewing history, or resetting update components."
+                   },
+                   {
+                       "name":  "Action",
+                       "label":  "Select Action",
+                       "type":  "dropdown",
+                       "required":  true,
+                       "default":  "CheckUpdates",
+                       "options":  [
+                                       "CheckUpdates",
+                                       "InstallUpdates",
+                                       "ViewHistory",
+                                       "ResetWindowsUpdate",
+                                       "ManageService"
+                                   ]
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Installation Options"
+                   },
+                   {
+                       "name":  "UpdateTypes",
+                       "label":  "Update Types",
+                       "type":  "dropdown",
+                       "default":  "All",
+                       "options":  [
+                                       "All",
+                                       "SecurityOnly",
+                                       "CriticalOnly"
+                                   ]
+                   },
+                   {
+                       "name":  "IncludeDrivers",
+                       "label":  "Include Driver Updates",
+                       "type":  "checkbox",
+                       "default":  false
+                   },
+                   {
+                       "name":  "DownloadOnly",
+                       "label":  "Download Only (No Install)",
+                       "type":  "checkbox",
+                       "default":  false
+                   },
+                   {
+                       "name":  "AutoReboot",
+                       "label":  "Auto Reboot if Required",
+                       "type":  "checkbox",
+                       "default":  false
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Service Management"
+                   },
+                   {
+                       "name":  "ServiceAction",
+                       "label":  "Service Operation",
+                       "type":  "dropdown",
+                       "default":  "Status",
+                       "options":  [
+                                       "Status",
+                                       "Start",
+                                       "Stop",
+                                       "Restart"
+                                   ]
+                   }
+               ]
+}

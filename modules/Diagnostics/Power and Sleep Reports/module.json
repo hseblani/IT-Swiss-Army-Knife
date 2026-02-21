@@ -1,0 +1,48 @@
+﻿{
+    "Id":  "power-sleep-reports",
+    "Name":  "Power and Sleep Reports",
+    "Category":  "Diagnostics",
+    "Order":  1,
+    "Shell":  "Pwsh",
+    "Description":  "Generate power and sleep diagnostics to identify issues with sleep, wake, and power usage.",
+    "RunPath":  "run.ps1",
+    "Params":  [
+                   {
+                       "name":  "WhatIfMode",
+                       "label":  "Dry Run (WhatIf)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  true
+                   },
+                   {
+                       "name":  "InfoNote",
+                       "type":  "info",
+                       "default":  "Generate power and sleep diagnostics to identify issues with sleep, wake, and power usage."
+                   },
+                   {
+                       "type":  "separator",
+                       "label":  "Reports"
+                   },
+                   {
+                       "name":  "OutputFolder",
+                       "label":  "Output folder",
+                       "type":  "folder",
+                       "required":  false,
+                       "default":  "__MODULE_OUTPUT__"
+                   },
+                   {
+                       "name":  "RunEnergyReport",
+                       "label":  "Generate Energy Report (powercfg /energy)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   },
+                   {
+                       "name":  "RunBatteryReport",
+                       "label":  "Generate Battery Report (powercfg /batteryreport)",
+                       "type":  "checkbox",
+                       "required":  false,
+                       "default":  false
+                   }
+               ]
+}
