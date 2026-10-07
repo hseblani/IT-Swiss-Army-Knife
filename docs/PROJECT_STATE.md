@@ -46,7 +46,7 @@ The directory is not recognized by Git. `git status --short`, `git rev-parse --s
 
 - Manifest metadata is richer than the launcher contract. `Shell`, `requiresAdmin`, `required`, `visibleWhen`, and `enabledWhen` are not enforced. `Description` is not copied into runtime module objects although the UI attempts to display it.
 - Two parameters use manifest type `select`, but the renderer has no `select` branch. They are rendered by the text fallback, so their option lists are not presented as selection controls.
-- The Global Report Aggregator manifest references missing `_shared/populate_available_data.ps1`. The main launcher separately hard-codes the multi-select SupportBundle scan, so impact is path-dependent.
+- The main launcher hard-codes the Global Report Aggregator multi-select SupportBundle scan rather than using the generic dynamic-dropdown population path.
 - Progress conventions are inconsistent. The GUI recognizes Information-stream `PROGRESS:n`; several modules emit bracketed output such as `[PROGRESS:n]`, which is display text rather than the recognized progress protocol.
 - `Shell` is present on 43 of 53 active manifests (42 `Pwsh`, 1 `WindowsPowerShell`) and absent on 10. The runtime does not use it.
 - `requiresAdmin` is present on only 16 manifests and absent on 37. Regardless, the normal launcher elevates the entire application.
@@ -56,7 +56,6 @@ The directory is not recognized by Git. `git status --short`, `git rev-parse --s
 ## Known broken or suspicious areas
 
 - `modules/Drivers/Driver Inventory and Age Report/run.ps1` has a parser error at line 74: `Sort-Object IsOld -Descending, Provider, DeviceName` is parsed as a missing argument. That active module cannot be considered runnable in its current form.
-- `modules/Asset Management/Global Report Aggregator/module.json` names a dynamic provider that does not exist: `modules/_shared/populate_available_data.ps1`.
 - Storage order 8 is assigned to both Disk Cleanup and Disk Health & SMART Status. Sorting falls back to name for the tie.
 - `Get-CategoryOrder` reads `Order` even though current category configuration uses `CategoryOrder`; the displayed tree uses a separate code path that reads `CategoryOrder` correctly.
 - The launcher manifest loader swallows all manifest exceptions without reporting which file failed.

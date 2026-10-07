@@ -56,7 +56,7 @@ Use disposable test machines or VMs and expendable disks/images for destructive 
 
 - There is no detected Pester suite or test runner. Do not say “tests passed” unless a real command was run successfully and state exactly what it covered.
 - At minimum, run the static PowerShell parser over all `.ps1` files, parse every `.json`, verify active `RunPath` targets, and validate dynamic `populateScript` references.
-- The current baseline is not clean: `modules/Drivers/Driver Inventory and Age Report/run.ps1` has a parser error at line 74, and the Global Report Aggregator manifest references a missing `modules/_shared/populate_available_data.ps1`.
+- The current baseline is not clean: `modules/Drivers/Driver Inventory and Age Report/run.ps1` has a parser error at line 74.
 - GUI smoke tests require interactive Windows, STA, the relevant PowerShell/.NET assemblies, and usually administrator access.
 - Operational module tests must be risk-based. Read-only modules can be smoke-tested on an appropriate Windows host; mutating modules require a disposable environment and explicit test data.
 - See `docs/TESTING.md` for concrete static commands and a manual matrix.

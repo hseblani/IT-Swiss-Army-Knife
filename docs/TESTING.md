@@ -22,7 +22,7 @@ The following non-operational checks were run on 2026-10-07:
 | Parse every `.json` with `ConvertFrom-Json` | All 57 parsed successfully. |
 | Parse every `.ps1` with `System.Management.Automation.Language.Parser.ParseFile` | Failed for one active file: `modules/Drivers/Driver Inventory and Age Report/run.ps1`, line 74, “Missing argument in parameter list.” No other parser errors were reported. |
 | Resolve each active manifest's `RunPath`, defaulting to `run.ps1` | All 53 targets exist. |
-| Resolve dynamic `populateScript` paths | 16 references exist; Global Report Aggregator's `populate_available_data.ps1` reference is missing. |
+| Resolve dynamic `populateScript` paths | All 16 remaining references resolve. |
 | Compare category/order pairs | Duplicate Storage order 8 found. No active module referenced an unknown configured category. |
 | Search for a Pester suite | None found. |
 | Inspect Git state | Git reported that the current directory is not a repository. |

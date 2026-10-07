@@ -73,7 +73,7 @@ For a dynamic `dropdown`, `Populate-DynamicDropdown` resolves `populateScript` r
 
 Verified shared providers enumerate adapters, disks, partitions, volumes, available disk size, and online/offline local users. `modules/_shared/common.ps1` supplies progress, admin detection, JSON reading, hardware collection, and HTML report generation.
 
-The Global Report Aggregator's `multi-select` control is special-cased in the main launcher and scans SupportBundle folders directly. Its manifest also names a missing `populate_available_data.ps1`; that generic reference is not used by the specialized `multi-select` branch. Runtime behavior remains **Unknown / needs verification**.
+The Global Report Aggregator's `multi-select` control is special-cased in the main launcher and scans SupportBundle folders directly rather than using the generic dynamic-dropdown population path. Runtime behavior remains **Unknown / needs verification**.
 
 ### Execution and output flow
 

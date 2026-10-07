@@ -42,11 +42,6 @@
                        "name":  "SelectedCategories",
                        "label":  "Choose Data to Include",
                        "type":  "multi-select",
-                       "dynamic":  true,
-                       "populateScript":  "..\\..\\_shared\\populate_available_data.ps1",
-                       "populateArgs":  [
-                                            "SourceDir"
-                                        ],
                        "description":  "Click to scan the folder and select which data sets to include in the report"
                    },
                    {
