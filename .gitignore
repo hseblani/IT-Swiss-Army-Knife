@@ -16,3 +16,10 @@ Desktop.ini
 *.clixml
 *.stackdump
 
+# Local/manual backup copies
+IT-SwissArmyKnife-v2.6 - Backup.ps1
+IT-SwissArmyKnife-v2.6 - Copy.ps1
+ModulesManager - Backup.ps1
+
+# ModulesManager soft-deleted modules
+modules/_deleted/
