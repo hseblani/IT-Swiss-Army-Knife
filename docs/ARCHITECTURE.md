@@ -60,12 +60,13 @@ The tree groups by category. Category display order comes from `CategoryOrder` i
 | `password` | WPF password box; value is inserted into the generated invocation text. |
 | `multi-select` | Button with a specialized SupportBundle JSON selection workflow. |
 | `dropdown` | Static combo box or dynamically populated combo box. |
+| `select` with direct `options` | Static combo box that honors a matching manifest default. |
 | `drive`, `folder`, `file` | Text box plus an appropriate picker. |
-| any other/missing type | Plain text box. Current `select` entries therefore use this fallback. |
+| any other/missing type | Plain text box. A `select` without direct `options` uses this fallback. |
 
-Checkbox `disables` relationships are enforced. `inline` affects layout. Token defaults `__MODULE_ROOT__`, `__MODULE_OUTPUT__`, and `__MODULE_LOGS__` resolve relative to the selected module directory.
+Checkbox `disables` relationships are enforced. `visibleWhen` and `enabledWhen` evaluate current equality/membership conditions against checkbox and dropdown/select controllers on initial render and controller changes. Hidden and disabled parameters retain their values and remain in the execution argument list. Parameter `description` text is available as a tooltip. `inline` affects layout. Token defaults `__MODULE_ROOT__`, `__MODULE_OUTPUT__`, and `__MODULE_LOGS__` resolve relative to the selected module directory.
 
-The renderer does not consume `required`, `visibleWhen`, or `enabledWhen`. The loader does not carry `Description`, `Shell`, or `requiresAdmin` into runtime module objects.
+The renderer does not consume `required`. The loader carries `Description` into runtime module objects but does not carry `Shell` or `requiresAdmin`.
 
 ### Dynamic dropdown flow
 

@@ -136,8 +136,9 @@ Manifest defaults must not be assumed safe. Inspect the target script before eac
 - Verify excluded `_deleted` content does not appear.
 - Check every supported control type, especially dynamic dropdown dependencies, passwords, file/folder/drive browsing, multi-select, and checkbox `disables` rules.
 - Verify required inputs manually because `required` is not enforced by the launcher.
-- Confirm `select` parameters in Convert WIM/ESD; current static analysis predicts a text box rather than a selector.
-- Confirm selected module descriptions; current static analysis predicts blank descriptions.
+- Confirm Convert WIM/ESD `TargetFormat` renders as a selector with `esd` selected by default; `Compression` remains a text box until its mapping metadata is supported.
+- Confirm selected module descriptions and parameter-description tooltips display without changing the panel layout.
+- Without executing modules, exercise Windows Offline Deploy visibility for source type, firmware type, recovery, NetFx3, and generated-unattend controls. Exercise Startup Programs Manager `ExportPath` visibility/enabled state for `ExportList` and other actions.
 - Test output from `Write-Output`, `Write-Host`/Information, Warning, and Error streams.
 - Test Stop in an isolated environment and verify both UI recovery and whether any native child process survives pipeline cancellation.
 

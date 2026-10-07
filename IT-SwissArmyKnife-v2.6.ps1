@@ -155,7 +155,7 @@ function Get-ToolkitModules {
             $resolvedRunPath = if ($c.runPath) { $c.runPath } else { "run.ps1" }
             $list.Add([PSCustomObject]@{
                     Name = $c.Name; Category = $c.Category; Order = [int]$c.Order
-                    Params = $c.params; RunPath = Join-Path $file.DirectoryName $resolvedRunPath
+                    Description = $c.Description; Params = $c.params; RunPath = Join-Path $file.DirectoryName $resolvedRunPath
                 })
         } catch {}
     }
@@ -889,12 +889,96 @@ function Resolve-ParamDefault {
     }
 }
 
+function Initialize-ManifestChoiceControl {
+    param($Combo, $Param, [switch]$HonorDefault)
+
+    $Combo.Items.Clear()
+    if ($Param.PSObject.Properties.Match("options").Count -gt 0 -and $Param.options) {
+        foreach ($option in $Param.options) { [void]$Combo.Items.Add($option) }
+    }
+
+    if ($Combo.Items.Count -le 0) { return }
+
+    $selectedIndex = 0
+    if ($HonorDefault -and $Param.PSObject.Properties.Match("default").Count -gt 0 -and $null -ne $Param.default) {
+        $defaultIndex = $Combo.Items.IndexOf($Param.default)
+        if ($defaultIndex -ge 0) { $selectedIndex = $defaultIndex }
+    }
+    $Combo.SelectedIndex = $selectedIndex
+}
+
+function ConvertTo-ManifestConditionValue {
+    param($Value)
+
+    if ($null -eq $Value) { return "" }
+    if ($Value -is [bool]) { return $Value.ToString().ToLowerInvariant() }
+    return ([string]$Value).Trim()
+}
+
+function Get-ManifestControlValue {
+    param($Control)
+
+    if ($Control -is [System.Windows.Controls.CheckBox]) {
+        return [bool]($Control.IsChecked -eq $true)
+    }
+    if ($Control -is [System.Windows.Controls.ComboBox]) {
+        return $Control.SelectedItem
+    }
+    return $null
+}
+
+function Test-ManifestCondition {
+    param($Condition, $Controls)
+
+    if ($null -eq $Condition) { return $true }
+
+    foreach ($property in $Condition.PSObject.Properties) {
+        $controllerName = [string]$property.Name
+        if (-not $Controls.ContainsKey($controllerName)) { return $false }
+
+        $actual = ConvertTo-ManifestConditionValue (Get-ManifestControlValue $Controls[$controllerName])
+        $allowed = @($property.Value) | ForEach-Object { ConvertTo-ManifestConditionValue $_ }
+        if ($allowed -notcontains $actual) { return $false }
+    }
+    return $true
+}
+
+function Get-ParameterCondition {
+    param($Param, [string]$ConditionName)
+
+    if ($Param.PSObject.Properties.Match($ConditionName).Count -gt 0) {
+        return $Param.$ConditionName
+    }
+    if ($Param.PSObject.Properties.Match("ui").Count -gt 0 -and $null -ne $Param.ui -and
+        $Param.ui.PSObject.Properties.Match($ConditionName).Count -gt 0) {
+        return $Param.ui.$ConditionName
+    }
+    return $null
+}
+
+function Update-ManifestConditions {
+    param($Module)
+
+    foreach ($param in $Module.Params) {
+        $name = if ($param.PSObject.Properties.Match("name").Count -gt 0) { [string]$param.name } else { "" }
+        if ([string]::IsNullOrWhiteSpace($name) -or -not $script:ParameterContainers.ContainsKey($name)) { continue }
+
+        $container = $script:ParameterContainers[$name]
+        $visibleWhen = Get-ParameterCondition -Param $param -ConditionName "visibleWhen"
+        $enabledWhen = Get-ParameterCondition -Param $param -ConditionName "enabledWhen"
+
+        $container.Visibility = if (Test-ManifestCondition -Condition $visibleWhen -Controls $script:InputControls) { "Visible" } else { "Collapsed" }
+        $container.IsEnabled = Test-ManifestCondition -Condition $enabledWhen -Controls $script:InputControls
+    }
+}
+
 #Render-ModuleUI FUNCTION
 function Render-ModuleUI {
     param($m)
 
     $pnlParams.Children.Clear()
     $script:InputControls = @{}
+    $script:ParameterContainers = @{}
     $txtModuleName.Text = $m.Name
     $txtModuleDesc.Text = $m.Description
 
@@ -933,6 +1017,12 @@ function Render-ModuleUI {
             Width  = if ($isInline) { 327 } else { [double]::NaN }
         }
         $targetContainer.Children.Add($elementStack) | Out-Null
+        if ($p.PSObject.Properties.Match("name").Count -gt 0) {
+            $script:ParameterContainers[[string]$p.name] = $elementStack
+        }
+        if ($p.PSObject.Properties.Match("description").Count -gt 0 -and -not [string]::IsNullOrWhiteSpace([string]$p.description)) {
+            $elementStack.ToolTip = [string]$p.description
+        }
 
         # ---------------- SEPARATOR ----------------
         if ($pType -eq "separator") {
@@ -1103,10 +1193,12 @@ function Render-ModuleUI {
             continue
         }
 
-        # ---------------- DROPDOWN ----------------
-        if ($pType -eq "dropdown") {
+        # ---------------- DROPDOWN / SELECT WITH DIRECT OPTIONS ----------------
+        # Dependency-driven select maps are intentionally not interpreted here.
+        $hasDirectOptions = ($p.PSObject.Properties.Match("options").Count -gt 0 -and $p.options)
+        if ($pType -eq "dropdown" -or ($pType -eq "select" -and $hasDirectOptions)) {
             $dyn = if ($p.PSObject.Properties.Match("dynamic").Count -gt 0) { $p.dynamic } else { $null }
-            $isDynamic = ($dyn -eq $true) -or ($dyn -is [string] -and $dyn.Trim().ToLower() -eq "true")
+            $isDynamic = $pType -eq "dropdown" -and (($dyn -eq $true) -or ($dyn -is [string] -and $dyn.Trim().ToLower() -eq "true"))
 
             if ($isDynamic) {
                 $stack = New-Object System.Windows.Controls.StackPanel -Property @{ Orientation = "Horizontal" }
@@ -1124,10 +1216,7 @@ function Render-ModuleUI {
                 continue
             }
             $ctrl = New-Object System.Windows.Controls.ComboBox -Property @{ Height = 35; VerticalContentAlignment = "Center"; Padding = "8,0,8,0" }
-            if ($p.PSObject.Properties.Match("options").Count -gt 0 -and $p.options) {
-                foreach ($opt in $p.options) { [void]$ctrl.Items.Add($opt) }
-                $ctrl.SelectedIndex = 0
-            }
+            Initialize-ManifestChoiceControl -Combo $ctrl -Param $p -HonorDefault:($pType -eq "select")
             $elementStack.Children.Add($ctrl) | Out-Null
             $script:InputControls[$p.name] = $ctrl
             continue
@@ -1170,8 +1259,19 @@ function Render-ModuleUI {
             $script:InputControls[$n].Add_Checked({ Update-DisableRules -module $mRef }.GetNewClosure())
             $script:InputControls[$n].Add_Unchecked({ Update-DisableRules -module $mRef }.GetNewClosure())
         }
+
+        if (-not $script:InputControls.ContainsKey($n)) { continue }
+        $conditionControl = $script:InputControls[$n]
+        $conditionModuleRef = $m
+        if ($conditionControl -is [System.Windows.Controls.ComboBox]) {
+            $conditionControl.Add_SelectionChanged({ Update-ManifestConditions -Module $conditionModuleRef }.GetNewClosure())
+        } elseif ($conditionControl -is [System.Windows.Controls.CheckBox]) {
+            $conditionControl.Add_Checked({ Update-ManifestConditions -Module $conditionModuleRef }.GetNewClosure())
+            $conditionControl.Add_Unchecked({ Update-ManifestConditions -Module $conditionModuleRef }.GetNewClosure())
+        }
     }
     Update-DisableRules -module $m
+    Update-ManifestConditions -Module $m
 }
 
 # Populate-DynamicDropdown

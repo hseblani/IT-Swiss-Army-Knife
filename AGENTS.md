@@ -21,7 +21,8 @@ This description is based on the current source tree. There is no authoritative 
 - The desktop UI depends on WPF and WinForms assemblies and Windows-only management cmdlets/utilities.
 - The launcher discovers `module.json` recursively under `modules/`, excluding paths containing `_deleted`, `_disabled`, or `_shared`.
 - A missing manifest `RunPath` defaults to `run.ps1`. Module order comes from each manifest; category order comes from `modules/categories.json`.
-- The runtime module object currently contains only `Name`, `Category`, `Order`, `Params`, and resolved `RunPath`. Manifest `Shell`, `requiresAdmin`, `required`, `visibleWhen`, and `enabledWhen` are not enforced by the launcher.
+- The runtime module object contains `Name`, `Category`, `Order`, `Description`, `Params`, and resolved `RunPath`. Manifest `Shell`, `requiresAdmin`, and `required` are not enforced by the launcher.
+- `visibleWhen` and `enabledWhen` support only the current equality/membership shapes driven by checkbox and dropdown/select controls. Do not introduce expression syntax without extending and testing the dependency engine deliberately.
 - Modules execute in a new runspace created by the already-running host, not in a shell selected from manifest metadata.
 - UI-to-script parameter binding is name-based. Renaming a manifest parameter without changing the script parameter, dependency references, and population arguments breaks the module contract.
 - `__MODULE_ROOT__`, `__MODULE_OUTPUT__`, and `__MODULE_LOGS__` defaults are resolved by the launcher. Preserve this contract.
@@ -76,9 +77,8 @@ Never convert a UI label, comment, manifest description, or dormant file into a 
 ## Current repository-specific cautions
 
 - One active module currently fails PowerShell parsing: `modules/Drivers/Driver Inventory and Age Report/run.ps1` line 74.
-- The launcher does not place manifest `Description` on its runtime module object, although the UI reads `$m.Description`; selected-module descriptions are therefore expected to be blank from this code path.
-- Manifest type `select` has no dedicated renderer and falls through to a text box; two Convert WIM/ESD parameters use it.
-- `required`, `visibleWhen`, and `enabledWhen` metadata are present but not consumed by the launcher.
+- Manifest type `select` uses the existing ComboBox renderer when it has direct `options`. The dependency-driven Convert WIM/ESD `Compression` select still falls back to text because `dependsOn`, `optionsMap`, and `defaultMap` are unsupported.
+- Parameter descriptions are exposed as tooltips. `visibleWhen` and `enabledWhen` are consumed for current manifest condition shapes, while `required` remains unsupported.
 - Ten active manifests omit `Shell`; 37 omit `requiresAdmin`. The launcher ignores both fields and globally elevates.
 - The manifest schema varies in casing and optional fields. PowerShell property lookup is case-insensitive, but other tools may not be.
 - The manager can rewrite JSON formatting/property order and can move whole directories. Review its proposed scope before using Save, Move, Delete, Restore, or overwrite options.

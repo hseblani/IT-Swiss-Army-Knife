@@ -22,9 +22,9 @@ Read-only inventory and destructive disk/account/registry/deployment actions use
 
 ## Manifest/runtime contract drift
 
-- The launcher drops `Description`, `Shell`, and `requiresAdmin` while building runtime module objects.
-- `required`, `visibleWhen`, and `enabledWhen` appear in manifests but have no launcher consumers.
-- `select` appears twice but has no renderer, so it becomes a free-text control and loses its options.
+- The launcher drops `Shell` and `requiresAdmin` while building runtime module objects.
+- `required` appears in manifests but has no launcher consumer.
+- `select` with direct `options` uses the ComboBox renderer. The dependency-driven `Compression` select remains free text because `dependsOn`, `optionsMap`, and `defaultMap` have no launcher consumers.
 - Ten active manifests omit `Shell`, 37 omit `requiresAdmin`, and two omit `Id`.
 - Property casing and parameter shapes vary widely. There is no JSON Schema or validation layer.
 - Global Report Aggregator common-data discovery is duplicated between the launcher's specialized multi-select implementation and the module's `Get-CommonDataFiles` function.
