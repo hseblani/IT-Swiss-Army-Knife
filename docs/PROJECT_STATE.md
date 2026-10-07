@@ -56,7 +56,6 @@ The directory is not recognized by Git. `git status --short`, `git rev-parse --s
 ## Known broken or suspicious areas
 
 - `modules/Drivers/Driver Inventory and Age Report/run.ps1` has a parser error at line 74: `Sort-Object IsOld -Descending, Provider, DeviceName` is parsed as a missing argument. That active module cannot be considered runnable in its current form.
-- Storage order 8 is assigned to both Disk Cleanup and Disk Health & SMART Status. Sorting falls back to name for the tie.
 - `Get-CategoryOrder` reads `Order` even though current category configuration uses `CategoryOrder`; the displayed tree uses a separate code path that reads `CategoryOrder` correctly.
 - The launcher manifest loader swallows all manifest exceptions without reporting which file failed.
 - The Stop handler stops and disposes the active PowerShell pipeline but does not track native child processes; native tools may survive cancellation.

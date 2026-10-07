@@ -2,7 +2,7 @@
     "Id":  "disk-health-check",
     "Name":  "Disk Health \u0026 SMART Status",
     "Category":  "Storage",
-    "Order":  8,
+    "Order":  9,
     "Shell":  "Pwsh",
     "Description":  "Comprehensive disk health analysis including SMART status, temperature, errors, performance metrics, and reliability predictions. Checks all physical disks or a selected disk.",
     "RunPath":  "run.ps1",

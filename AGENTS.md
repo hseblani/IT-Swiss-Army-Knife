@@ -80,7 +80,6 @@ Never convert a UI label, comment, manifest description, or dormant file into a 
 - Manifest type `select` has no dedicated renderer and falls through to a text box; two Convert WIM/ESD parameters use it.
 - `required`, `visibleWhen`, and `enabledWhen` metadata are present but not consumed by the launcher.
 - Ten active manifests omit `Shell`; 37 omit `requiresAdmin`. The launcher ignores both fields and globally elevates.
-- Storage orders contain a duplicate: Disk Cleanup and Disk Health & SMART Status both use order 8.
 - The manifest schema varies in casing and optional fields. PowerShell property lookup is case-insensitive, but other tools may not be.
 - The manager can rewrite JSON formatting/property order and can move whole directories. Review its proposed scope before using Save, Move, Delete, Restore, or overwrite options.
 - Output and debug files may be written under module folders or `%TEMP%`; check for generated artifacts after manual runs.

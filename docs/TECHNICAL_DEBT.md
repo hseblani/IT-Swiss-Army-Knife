@@ -28,7 +28,6 @@ Read-only inventory and destructive disk/account/registry/deployment actions use
 - Ten active manifests omit `Shell`, 37 omit `requiresAdmin`, and two omit `Id`.
 - Property casing and parameter shapes vary widely. There is no JSON Schema or validation layer.
 - Global Report Aggregator common-data discovery is duplicated between the launcher's specialized multi-select implementation and the module's `Get-CommonDataFiles` function.
-- Storage has duplicate order 8 and no order 9. Sorting remains deterministic by name for the tie, but ordering data is inconsistent.
 - The launcher has `Get-CategoryOrder` code reading `Order`, while current category entries use `CategoryOrder`; another code path handles the actual tree correctly.
 
 ## Shell and privilege ambiguity
