@@ -907,6 +907,50 @@ function Initialize-ManifestChoiceControl {
     $Combo.SelectedIndex = $selectedIndex
 }
 
+function Get-ManifestMappedValue {
+    param($Map, [string]$Key)
+
+    if ($null -eq $Map -or [string]::IsNullOrWhiteSpace($Key)) { return $null }
+    foreach ($property in $Map.PSObject.Properties) {
+        if ($property.Name -ieq $Key) { return $property.Value }
+    }
+    return $null
+}
+
+function Update-DependentSelects {
+    param($Module)
+
+    foreach ($param in $Module.Params) {
+        if ($param.PSObject.Properties.Match("dependsOn").Count -le 0 -or
+            $param.PSObject.Properties.Match("optionsMap").Count -le 0) { continue }
+
+        $name = [string]$param.name
+        $dependencyName = [string]$param.dependsOn
+        if (-not $script:InputControls.ContainsKey($name) -or -not $script:InputControls.ContainsKey($dependencyName)) { continue }
+
+        $target = $script:InputControls[$name]
+        $dependency = $script:InputControls[$dependencyName]
+        if ($target -isnot [System.Windows.Controls.ComboBox] -or $dependency -isnot [System.Windows.Controls.ComboBox]) { continue }
+
+        $dependencyValue = [string]$dependency.SelectedItem
+        $options = @(Get-ManifestMappedValue -Map $param.optionsMap -Key $dependencyValue)
+        $previousValue = if ($target.SelectedItem) { [string]$target.SelectedItem } else { "" }
+
+        $target.Items.Clear()
+        foreach ($option in $options) { [void]$target.Items.Add($option) }
+        if ($target.Items.Count -le 0) { continue }
+
+        $selectedIndex = if (-not [string]::IsNullOrWhiteSpace($previousValue)) { $target.Items.IndexOf($previousValue) } else { -1 }
+        if ($selectedIndex -lt 0) {
+            $mappedDefault = if ($param.PSObject.Properties.Match("defaultMap").Count -gt 0) {
+                Get-ManifestMappedValue -Map $param.defaultMap -Key $dependencyValue
+            } else { $null }
+            $selectedIndex = if ($null -ne $mappedDefault) { $target.Items.IndexOf($mappedDefault) } else { -1 }
+        }
+        $target.SelectedIndex = if ($selectedIndex -ge 0) { $selectedIndex } else { 0 }
+    }
+}
+
 function ConvertTo-ManifestConditionValue {
     param($Value)
 
@@ -970,6 +1014,80 @@ function Update-ManifestConditions {
         $container.Visibility = if (Test-ManifestCondition -Condition $visibleWhen -Controls $script:InputControls) { "Visible" } else { "Collapsed" }
         $container.IsEnabled = Test-ManifestCondition -Condition $enabledWhen -Controls $script:InputControls
     }
+}
+
+function Update-ManifestUiRules {
+    param($Module)
+
+    if ($script:ManifestUiRulesBusy) { return }
+    $script:ManifestUiRulesBusy = $true
+    try {
+        Update-DependentSelects -Module $Module
+        Update-ManifestConditions -Module $Module
+    } finally {
+        $script:ManifestUiRulesBusy = $false
+    }
+}
+
+function Test-DynamicDropdownStatusValue {
+    param([string]$Value)
+
+    if ([string]::IsNullOrWhiteSpace($Value)) { return $true }
+    return $Value -match '^(ERROR:|LOG:|Loading\.\.\.$|No options available$|No disks found$|No partitions on this disk$|Select a disk first$|Invalid disk selection$)'
+}
+
+function Test-RequiredParameterSupported {
+    param($Module, $Param)
+
+    # These fields are action-dependent in the module script, but the manifest has no requiredWhen contract.
+    if ($Module.Name -eq "Deploy Windows to Offline Disk" -and
+        $Param.name -in @("ImageIndex", "TargetDiskNumber", "Confirmation")) { return $false }
+
+    $type = if ($Param.PSObject.Properties.Match("type").Count -gt 0) { [string]$Param.type } else { "text" }
+    return $type.ToLowerInvariant() -in @("text", "folder", "drive", "dropdown", "select")
+}
+
+function Test-RequiredComboBoxValue {
+    param($Combo, $Param)
+
+    if ($null -eq $Combo.SelectedItem) { return $false }
+    $value = ([string]$Combo.SelectedItem).Trim()
+    if ([string]::IsNullOrWhiteSpace($value)) { return $false }
+
+    $isDynamic = $Param.PSObject.Properties.Match("dynamic").Count -gt 0 -and
+        (($Param.dynamic -eq $true) -or ($Param.dynamic -is [string] -and $Param.dynamic.Trim().ToLowerInvariant() -eq "true"))
+    if ($isDynamic -and (Test-DynamicDropdownStatusValue -Value $value)) { return $false }
+    return $true
+}
+
+function Get-MissingRequiredParameter {
+    param($Module)
+
+    foreach ($param in $Module.Params) {
+        if ($param.PSObject.Properties.Match("required").Count -le 0 -or $param.required -ne $true) { continue }
+        if (-not (Test-RequiredParameterSupported -Module $Module -Param $param)) { continue }
+
+        $visibleWhen = Get-ParameterCondition -Param $param -ConditionName "visibleWhen"
+        if (-not (Test-ManifestCondition -Condition $visibleWhen -Controls $script:InputControls)) { continue }
+
+        $name = [string]$param.name
+        if (-not $script:InputControls.ContainsKey($name)) {
+            return [PSCustomObject]@{ Param = $param; Control = $null }
+        }
+
+        $control = $script:InputControls[$name]
+        $type = if ($param.PSObject.Properties.Match("type").Count -gt 0) { [string]$param.type } else { "text" }
+        $hasValue = switch ($type.ToLowerInvariant()) {
+            { $_ -in @("dropdown", "select") } { Test-RequiredComboBoxValue -Combo $control -Param $param; break }
+            default {
+                $control.PSObject.Properties.Match("Text").Count -gt 0 -and
+                    -not [string]::IsNullOrWhiteSpace([string]$control.Text)
+            }
+        }
+
+        if (-not $hasValue) { return [PSCustomObject]@{ Param = $param; Control = $control } }
+    }
+    return $null
 }
 
 #Render-ModuleUI FUNCTION
@@ -1193,10 +1311,11 @@ function Render-ModuleUI {
             continue
         }
 
-        # ---------------- DROPDOWN / SELECT WITH DIRECT OPTIONS ----------------
-        # Dependency-driven select maps are intentionally not interpreted here.
+        # ---------------- DROPDOWN / SELECT ----------------
         $hasDirectOptions = ($p.PSObject.Properties.Match("options").Count -gt 0 -and $p.options)
-        if ($pType -eq "dropdown" -or ($pType -eq "select" -and $hasDirectOptions)) {
+        $hasDependentOptions = ($p.PSObject.Properties.Match("dependsOn").Count -gt 0 -and
+            $p.PSObject.Properties.Match("optionsMap").Count -gt 0)
+        if ($pType -eq "dropdown" -or ($pType -eq "select" -and ($hasDirectOptions -or $hasDependentOptions))) {
             $dyn = if ($p.PSObject.Properties.Match("dynamic").Count -gt 0) { $p.dynamic } else { $null }
             $isDynamic = $pType -eq "dropdown" -and (($dyn -eq $true) -or ($dyn -is [string] -and $dyn.Trim().ToLower() -eq "true"))
 
@@ -1216,7 +1335,9 @@ function Render-ModuleUI {
                 continue
             }
             $ctrl = New-Object System.Windows.Controls.ComboBox -Property @{ Height = 35; VerticalContentAlignment = "Center"; Padding = "8,0,8,0" }
-            Initialize-ManifestChoiceControl -Combo $ctrl -Param $p -HonorDefault:($pType -eq "select")
+            if ($hasDirectOptions) {
+                Initialize-ManifestChoiceControl -Combo $ctrl -Param $p -HonorDefault:($pType -eq "select")
+            }
             $elementStack.Children.Add($ctrl) | Out-Null
             $script:InputControls[$p.name] = $ctrl
             continue
@@ -1264,14 +1385,15 @@ function Render-ModuleUI {
         $conditionControl = $script:InputControls[$n]
         $conditionModuleRef = $m
         if ($conditionControl -is [System.Windows.Controls.ComboBox]) {
-            $conditionControl.Add_SelectionChanged({ Update-ManifestConditions -Module $conditionModuleRef }.GetNewClosure())
+            $conditionControl.Add_SelectionChanged({ Update-ManifestUiRules -Module $conditionModuleRef }.GetNewClosure())
         } elseif ($conditionControl -is [System.Windows.Controls.CheckBox]) {
-            $conditionControl.Add_Checked({ Update-ManifestConditions -Module $conditionModuleRef }.GetNewClosure())
-            $conditionControl.Add_Unchecked({ Update-ManifestConditions -Module $conditionModuleRef }.GetNewClosure())
+            $conditionControl.Add_Checked({ Update-ManifestUiRules -Module $conditionModuleRef }.GetNewClosure())
+            $conditionControl.Add_Unchecked({ Update-ManifestUiRules -Module $conditionModuleRef }.GetNewClosure())
         }
     }
     Update-DisableRules -module $m
-    Update-ManifestConditions -Module $m
+    $script:ManifestUiRulesBusy = $false
+    Update-ManifestUiRules -Module $m
 }
 
 # Populate-DynamicDropdown
@@ -1434,6 +1556,17 @@ $btnRun.Add_Click({
         $m = $tvModules.SelectedItem.Tag
         if (!$m) {
             $script:Console.WriteLine("No module selected!", "Error")
+            return
+        }
+
+        $missingRequired = Get-MissingRequiredParameter -Module $m
+        if ($null -ne $missingRequired) {
+            $param = $missingRequired.Param
+            $label = if ($param.PSObject.Properties.Match("label").Count -gt 0 -and $param.label) { [string]$param.label } else { [string]$param.name }
+            $message = "Please provide a value for the required field: $label"
+            $script:Console.WriteLine($message, "Error")
+            [System.Windows.MessageBox]::Show($message, "Required Input", "OK", "Warning") | Out-Null
+            if ($missingRequired.Control) { [void]$missingRequired.Control.Focus() }
             return
         }
 

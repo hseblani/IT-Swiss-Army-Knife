@@ -44,9 +44,9 @@ The directory is not recognized by Git. `git status --short`, `git rev-parse --s
 
 ## Partially implemented or inconsistent behavior
 
-- Manifest metadata is richer than the launcher contract. `Shell`, `requiresAdmin`, and `required` are not enforced. `Description` is copied into runtime module objects and displayed through the existing description control.
+- Manifest metadata is richer than the launcher contract. `Shell` and `requiresAdmin` are not enforced. Supported `required` text/path/drive/dropdown/select controls are validated immediately before execution; Windows Offline Deploy `ImageIndex`, `TargetDiskNumber`, and `Confirmation` remain module-validated because their requirement varies by action.
 - `visibleWhen` and `enabledWhen` support the equality/membership conditions currently used by Windows Offline Deploy and Startup Programs Manager. Hidden or disabled controls keep their values and arguments.
-- Two parameters use manifest type `select`. `TargetFormat`, which has direct `options`, uses the ComboBox renderer and honors its default. `Compression` still uses the text fallback because its `dependsOn`, `optionsMap`, and `defaultMap` metadata remains unsupported.
+- Two parameters use manifest type `select`. `TargetFormat` uses direct options and its default. `Compression` uses `TargetFormat` with its manifest `optionsMap` and `defaultMap`, retaining a prior selection when it remains valid.
 - The main launcher hard-codes the Global Report Aggregator multi-select SupportBundle scan rather than using the generic dynamic-dropdown population path.
 - Progress conventions are inconsistent. The GUI recognizes Information-stream `PROGRESS:n`; several modules emit bracketed output such as `[PROGRESS:n]`, which is display text rather than the recognized progress protocol.
 - `Shell` is present on 43 of 53 active manifests (42 `Pwsh`, 1 `WindowsPowerShell`) and absent on 10. The runtime does not use it.

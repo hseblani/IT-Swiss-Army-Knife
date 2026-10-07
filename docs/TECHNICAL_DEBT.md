@@ -18,13 +18,13 @@ The main Stop handler stops and disposes its runspace but does not retain native
 
 ### Destructive operations share the general module path
 
-Read-only inventory and destructive disk/account/registry/deployment actions use the same discovery, rendering, and execution pipeline. Safety relies primarily on individual scripts, defaults, checkboxes, and confirmations. Manifest `required` and `requiresAdmin` are not enforced centrally.
+Read-only inventory and destructive disk/account/registry/deployment actions use the same discovery, rendering, and execution pipeline. Safety relies on launcher required-field checks plus individual scripts, defaults, checkboxes, and confirmations. Manifest `requiresAdmin` is not enforced centrally.
 
 ## Manifest/runtime contract drift
 
 - The launcher drops `Shell` and `requiresAdmin` while building runtime module objects.
-- `required` appears in manifests but has no launcher consumer.
-- `select` with direct `options` uses the ComboBox renderer. The dependency-driven `Compression` select remains free text because `dependsOn`, `optionsMap`, and `defaultMap` have no launcher consumers.
+- Required validation intentionally excludes Windows Offline Deploy `ImageIndex`, `TargetDiskNumber`, and `Confirmation`; their requirement varies by action and the manifest schema has no `requiredWhen` equivalent.
+- `select` supports direct options and the one active dependency-map shape. Broader dependency schemas remain undefined.
 - Ten active manifests omit `Shell`, 37 omit `requiresAdmin`, and two omit `Id`.
 - Property casing and parameter shapes vary widely. There is no JSON Schema or validation layer.
 - Global Report Aggregator common-data discovery is duplicated between the launcher's specialized multi-select implementation and the module's `Get-CommonDataFiles` function.

@@ -21,7 +21,7 @@ This description is based on the current source tree. There is no authoritative 
 - The desktop UI depends on WPF and WinForms assemblies and Windows-only management cmdlets/utilities.
 - The launcher discovers `module.json` recursively under `modules/`, excluding paths containing `_deleted`, `_disabled`, or `_shared`.
 - A missing manifest `RunPath` defaults to `run.ps1`. Module order comes from each manifest; category order comes from `modules/categories.json`.
-- The runtime module object contains `Name`, `Category`, `Order`, `Description`, `Params`, and resolved `RunPath`. Manifest `Shell`, `requiresAdmin`, and `required` are not enforced by the launcher.
+- The runtime module object contains `Name`, `Category`, `Order`, `Description`, `Params`, and resolved `RunPath`. Manifest `Shell` and `requiresAdmin` are not enforced by the launcher.
 - `visibleWhen` and `enabledWhen` support only the current equality/membership shapes driven by checkbox and dropdown/select controls. Do not introduce expression syntax without extending and testing the dependency engine deliberately.
 - Modules execute in a new runspace created by the already-running host, not in a shell selected from manifest metadata.
 - UI-to-script parameter binding is name-based. Renaming a manifest parameter without changing the script parameter, dependency references, and population arguments breaks the module contract.
@@ -77,8 +77,8 @@ Never convert a UI label, comment, manifest description, or dormant file into a 
 ## Current repository-specific cautions
 
 - One active module currently fails PowerShell parsing: `modules/Drivers/Driver Inventory and Age Report/run.ps1` line 74.
-- Manifest type `select` uses the existing ComboBox renderer when it has direct `options`. The dependency-driven Convert WIM/ESD `Compression` select still falls back to text because `dependsOn`, `optionsMap`, and `defaultMap` are unsupported.
-- Parameter descriptions are exposed as tooltips. `visibleWhen` and `enabledWhen` are consumed for current manifest condition shapes, while `required` remains unsupported.
+- Manifest type `select` uses the existing ComboBox renderer for direct `options` and for the current `dependsOn`/`optionsMap`/`defaultMap` contract used by Convert WIM/ESD `Compression`.
+- Parameter descriptions are exposed as tooltips. `visibleWhen`, `enabledWhen`, and supported `required` fields are enforced. Windows Offline Deploy `ImageIndex`, `TargetDiskNumber`, and `Confirmation` remain excluded from central required validation because their requirement varies by `Action` but the manifest has no conditional-required contract.
 - Ten active manifests omit `Shell`; 37 omit `requiresAdmin`. The launcher ignores both fields and globally elevates.
 - The manifest schema varies in casing and optional fields. PowerShell property lookup is case-insensitive, but other tools may not be.
 - The manager can rewrite JSON formatting/property order and can move whole directories. Review its proposed scope before using Save, Move, Delete, Restore, or overwrite options.

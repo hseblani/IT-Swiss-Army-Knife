@@ -60,13 +60,15 @@ The tree groups by category. Category display order comes from `CategoryOrder` i
 | `password` | WPF password box; value is inserted into the generated invocation text. |
 | `multi-select` | Button with a specialized SupportBundle JSON selection workflow. |
 | `dropdown` | Static combo box or dynamically populated combo box. |
-| `select` with direct `options` | Static combo box that honors a matching manifest default. |
+| `select` | Static combo box for direct `options`, or a dependency-driven combo box for the current `dependsOn`/`optionsMap`/`defaultMap` contract. |
 | `drive`, `folder`, `file` | Text box plus an appropriate picker. |
-| any other/missing type | Plain text box. A `select` without direct `options` uses this fallback. |
+| any other/missing type | Plain text box. A `select` without direct options or the supported dependency-map contract uses this fallback. |
 
 Checkbox `disables` relationships are enforced. `visibleWhen` and `enabledWhen` evaluate current equality/membership conditions against checkbox and dropdown/select controllers on initial render and controller changes. Hidden and disabled parameters retain their values and remain in the execution argument list. Parameter `description` text is available as a tooltip. `inline` affects layout. Token defaults `__MODULE_ROOT__`, `__MODULE_OUTPUT__`, and `__MODULE_LOGS__` resolve relative to the selected module directory.
 
-The renderer does not consume `required`. The loader carries `Description` into runtime module objects but does not carry `Shell` or `requiresAdmin`.
+Immediately before execution, the launcher validates supported parameters declaring `required: true`. Blank text/folder/drive controls, empty ComboBoxes, and dynamic-dropdown error/status rows block execution with a field-specific message. A required control whose `visibleWhen` condition is false does not block execution. Windows Offline Deploy `ImageIndex`, `TargetDiskNumber`, and `Confirmation` are deliberately excluded because their requirement is action-dependent but no conditional-required schema exists. The loader carries `Description` into runtime module objects but does not carry `Shell` or `requiresAdmin`.
+
+The only active dependent-select contract is Convert WIM/ESD `Compression`. Its options and default are selected from `optionsMap` and `defaultMap` using `TargetFormat`; a current value is retained when it remains valid.
 
 ### Dynamic dropdown flow
 
