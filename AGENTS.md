@@ -38,7 +38,7 @@ Do not change these casually:
 - Registry, firewall, services, scheduled tasks, Windows Update, drivers, DISM, SFC, CHKDSK, and boot-file operations.
 - Module-manager move, delete, overwrite, restore, and save workflows.
 - Argument construction and password handling in `Execute-CommandAsync`.
-- The Stop handler: it currently stops every process named `ping`, `sfc`, `dism`, or `chkdsk` visible to the elevated process, not just a child started by the toolkit.
+- The Stop handler stops and disposes the active PowerShell pipeline but does not track native child PIDs. Native tools may survive cancellation; never add global termination by executable name because unrelated system processes may exist.
 
 Use disposable test machines or VMs and expendable disks/images for destructive workflows. Never run them merely to establish coverage.
 
@@ -84,4 +84,3 @@ Never convert a UI label, comment, manifest description, or dormant file into a 
 - The manifest schema varies in casing and optional fields. PowerShell property lookup is case-insensitive, but other tools may not be.
 - The manager can rewrite JSON formatting/property order and can move whole directories. Review its proposed scope before using Save, Move, Delete, Restore, or overwrite options.
 - Output and debug files may be written under module folders or `%TEMP%`; check for generated artifacts after manual runs.
-

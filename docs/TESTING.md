@@ -139,7 +139,7 @@ Manifest defaults must not be assumed safe. Inspect the target script before eac
 - Confirm `select` parameters in Convert WIM/ESD; current static analysis predicts a text box rather than a selector.
 - Confirm selected module descriptions; current static analysis predicts blank descriptions.
 - Test output from `Write-Output`, `Write-Host`/Information, Warning, and Error streams.
-- Test Stop only in an isolated environment with no unrelated `ping`, `sfc`, `dism`, or `chkdsk` process.
+- Test Stop in an isolated environment and verify both UI recovery and whether any native child process survives pipeline cancellation.
 
 ### Module-manager checks
 
@@ -165,4 +165,3 @@ Use a temporary copy of `modules/`, never the only working copy.
 - No tests for unusual paths/values containing quotes, spaces, commas, Unicode, or shell metacharacters.
 - No automated verification of generated JSON/CSV/HTML/ZIP/EVTX output.
 - No CI and no verified Git worktree in the current directory.
-

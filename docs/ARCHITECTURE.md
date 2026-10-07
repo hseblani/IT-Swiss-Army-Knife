@@ -94,7 +94,7 @@ The launcher builds a script string containing the module path and every current
 
 `Process-AllStreams` recognizes Information messages exactly matching `PROGRESS:<integer>` and updates the progress bar. Other records are colorized by stream, host foreground color, or line prefix.
 
-The Stop button calls `PowerShell.Stop()`, disposes the runspace, and force-stops all processes named `ping`, `sfc`, `dism`, or `chkdsk`. It does not track only the selected module's child process.
+The Stop button calls `PowerShell.Stop()` and disposes the runspace. It does not track or explicitly terminate native child processes, so a native tool may survive pipeline cancellation.
 
 ## Module manager
 
@@ -159,4 +159,3 @@ No third-party PowerShell module is explicitly installed by the repository. Avai
 - Shared scripts are sourced or executed by modules; there is no packaged PowerShell module boundary.
 - The manager is an authoring tool and is not called by the runtime launcher.
 - Soft-deleted and backup files are retained in the distribution but excluded from normal runtime entry points.
-

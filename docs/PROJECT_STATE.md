@@ -60,7 +60,7 @@ The directory is not recognized by Git. `git status --short`, `git rev-parse --s
 - Storage order 8 is assigned to both Disk Cleanup and Disk Health & SMART Status. Sorting falls back to name for the tie.
 - `Get-CategoryOrder` reads `Order` even though current category configuration uses `CategoryOrder`; the displayed tree uses a separate code path that reads `CategoryOrder` correctly.
 - The launcher manifest loader swallows all manifest exceptions without reporting which file failed.
-- The Stop handler force-terminates all `ping`, `sfc`, `dism`, and `chkdsk` processes, not only processes launched by the selected module.
+- The Stop handler stops and disposes the active PowerShell pipeline but does not track native child processes; native tools may survive cancellation.
 - The launcher constructs invocation source text from UI values. Embedded passwords become plain text in that generated script and quoting is fragile for unusual input.
 - The three launcher versions and two manager versions all have distinct hashes. Their intended retention/versioning policy is **Unknown / needs verification**.
 
@@ -92,4 +92,3 @@ The following are **Unknown / needs verification**:
 - Encoding/layout of generated reports and console output on target systems.
 - Whether antivirus/application-control policy permits execution-policy bypass, inline C# compilation, and unsigned scripts.
 - Whether this directory is meant to be nested inside a Git repository located elsewhere.
-

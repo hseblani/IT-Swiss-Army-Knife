@@ -8,9 +8,9 @@ This register is limited to concerns visible in the current repository. It descr
 
 `modules/Drivers/Driver Inventory and Age Report/run.ps1` fails static parsing at line 74 with “Missing argument in parameter list.” The active manifest and run path are otherwise discoverable, so the launcher can present a module that cannot parse when invoked.
 
-### Stop is process-global
+### Stop does not track native child processes
 
-The main Stop handler disposes its runspace and then force-stops every process named `ping`, `sfc`, `dism`, or `chkdsk`. It does not retain child process IDs. On an elevated administration workstation this can terminate unrelated maintenance work.
+The main Stop handler stops and disposes its runspace but does not retain native child process IDs. Native tools may survive cancellation; exact per-run process tracking remains unimplemented.
 
 ### Arguments and passwords are composed as source text
 
@@ -64,7 +64,7 @@ Saving rewrites JSON with `ConvertTo-Json` and can change formatting/property or
 
 - Network Speed Test hard-codes Cloudflare endpoints and fixed 10/50/100 MB payloads.
 - Network Summary hard-codes the ipify public-IP endpoint and an eight-second timeout.
-- The Stop handler hard-codes a four-process name list.
+- The Stop handler has no per-run native-process registry or child-process cleanup mechanism.
 - UI dimensions, colors, output prefix matching, timeout defaults, protected account names, registry paths, service names, and native utility paths are embedded in scripts.
 - The offline-deployment workflow contains fixed drive-letter assumptions in BCDBoot-related code.
 
@@ -97,4 +97,3 @@ Endpoint availability, terms, proxy behavior, TLS compatibility, and privacy exp
 ## Documentation and governance gaps
 
 Before this documentation set, the current tree contained no README, support matrix, license, change log, manifest specification, security guidance, contributor workflow, or release procedure. Ownership, distribution method, production usage, supported targets, credential policy, and recovery expectations are all **Unknown / needs verification**.
-

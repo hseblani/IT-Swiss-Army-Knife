@@ -1307,7 +1307,7 @@ $btnStop.Add_Click({
                 $script:OutputTimer = $null
             }
 
-            Get-Process | Where-Object ProcessName -in @("ping", "sfc", "dism", "chkdsk") | Stop-Process -Force -ErrorAction SilentlyContinue
+            # Never terminate processes globally by executable name; unrelated system processes may be running.
 
             if ($script:ActivePowerShell) {
                 $script:ActivePowerShell.Dispose()
